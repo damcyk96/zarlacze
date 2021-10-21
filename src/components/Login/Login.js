@@ -29,7 +29,7 @@ function Copyright(props) {
 
 const theme = createTheme()
 
-export default function SignInSide() {
+export default function Login() {
     return (
         <ThemeProvider theme={theme}>
             <Grid container component="main" sx={{ height: '100vh' }}>
