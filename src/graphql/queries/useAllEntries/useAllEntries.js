@@ -13,7 +13,7 @@ export const GET_ALL_ENTRIES = gql`
     }
 `
 
-const useAllEntries = () => {
+export const useAllEntries = () => {
     const { data, loading, error } = useQuery(GET_ALL_ENTRIES)
 
     return { data: data && data.entryMany, loading, error }
