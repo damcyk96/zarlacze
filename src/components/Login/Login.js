@@ -34,6 +34,8 @@ export default function Login() {
         <ThemeProvider theme={theme}>
             <Grid container component="main" sx={{ height: '100vh' }}>
                 <CssBaseline />
+                                        {/* TO DO PATH */}
+
                 <Grid
                     item
                     xs={false}
@@ -68,6 +70,7 @@ export default function Login() {
                             alignItems: 'center',
                         }}
                     >
+                        {/* TO DO LINK */}
                         <img
                             src="https://i.ibb.co/2NnMsyy/pobrane.png"
                             alt="selleoLogo"
