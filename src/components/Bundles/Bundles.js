@@ -3,7 +3,7 @@ import FormGroup from '@mui/material/FormGroup'
 import FormControlLabel from '@mui/material/FormControlLabel'
 import Checkbox from '@mui/material/Checkbox'
 import Loader from '../Loader'
-import useGetAllBundles from '../../graphql/queries/useGetAllBundles/useGetAllBundles'
+import useGetAllBundles from '../../graphql/queries/useGetAllBundles'
 
 const Bundles = () => {
     const { data, loading, error } = useGetAllBundles()
