@@ -16,7 +16,9 @@ import { dateState } from '../../context/date'
 import useGetEntriesByDate, {
     GET_ENTRIES_BY_DATE,
 } from '../../graphql/queries/useGetEntriesByDate'
-import useGetAllEntries, { GET_ALL_ENTRIES } from '../../graphql/queries/useGetAllEntries'
+import useGetAllEntries, {
+    GET_ALL_ENTRIES,
+} from '../../graphql/queries/useGetAllEntries'
 
 const DELETE_ENTRY = gql`
     mutation DeleteEntry($_id: MongoID!) {
@@ -44,7 +46,6 @@ const Entries = () => {
 
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
-            v
             <Container>
                 <h1>My entries</h1>
                 {data.map((singleEntry) => {

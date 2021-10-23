@@ -9,7 +9,7 @@ import EntriesWithDatePicker from './pages/EntriesWithDatePicker'
 function App() {
     return (
         <div className="App">
-           <Bundles />
+           <EntriesWithDatePicker />
         </div>
     )
 }
