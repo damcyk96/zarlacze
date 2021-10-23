@@ -31,7 +31,6 @@ const Entries = () => {
     })
 
     if (loading) return <Loader />
-    if (error) return <div>Error :(</div>
 
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
