@@ -60,7 +60,7 @@ const Drawer = styled(MuiDrawer, {
 }))
 
 const mdTheme = createTheme()
-const DashBoard = () => {
+const Dashboard = () => {
     const [open, setOpen] = React.useState(true)
     const toggleDrawer = () => {
         setOpen(!open)
@@ -95,7 +95,7 @@ const DashBoard = () => {
                             noWrap
                             sx={{ flexGrow: 1 }}
                         >
-                            Poor Clockify :>
+                            Poor Clockify
                         </Typography>
                     </Toolbar>
                 </AppBar>
@@ -135,4 +135,4 @@ const DashBoard = () => {
     )
 }
 
-export default DashBoard
+export default Dashboard
