@@ -4,12 +4,12 @@ import Entries from '../components/Entries/Entries'
 import { DateStateProvider } from '../context/date'
 
 const EntriesWithDatePicker = () => {
-    return (
-        <DateStateProvider>
-            <ChooseDate />
-            <Entries />
-        </DateStateProvider>
-    )
+  return (
+    <DateStateProvider>
+      <ChooseDate />
+      <Entries />
+    </DateStateProvider>
+  )
 }
 
 export default EntriesWithDatePicker
