@@ -19,10 +19,10 @@ export const GET_ALL_ENTRIES = gql`
 }
 `
 
-export const useAllEntries = () => {
+export const useGetAllEntries = () => {
     const { data, loading, error } = useQuery(GET_ALL_ENTRIES)
 
     return { data: data && data.entryMany, loading, error }
 }
 
-export default useAllEntries
+export default useGetAllEntries

@@ -6,29 +6,29 @@ import DatePicker from '@mui/lab/DatePicker'
 import Stack from '@mui/material/Stack'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore'
-import Button from '@mui/material/Button';
-import startOfYesterday from 'date-fns/startOfYesterday'
-import startOfTomorrow from 'date-fns/startOfTomorrow'
-import { setDate } from 'date-fns'
+import Button from '@mui/material/Button'
 import moment from 'moment'
-import {dateState} from './../../context/date'
+import { dateState } from './../../context/date'
 
 const ChooseDate = () => {
-const {pickedDate, setPickedDate} = dateState();    
+    const { pickedDate, setPickedDate } = dateState()
 
-    console.log(pickedDate)
     return (
         <div>
             <LocalizationProvider dateAdapter={AdapterDateFns}>
                 <Stack spacing={2} direction="row">
-                    <Button variant="text" onClick={()=>{
-                        setPickedDate(moment().add(-1, 'days'))
-                    }}>
+                    <Button
+                        variant="text"
+                        onClick={() => {
+                            setPickedDate(moment().add(-1, 'days'))
+                        }}
+                    >
                         <NavigateBeforeIcon />
                     </Button>
 
                     <DatePicker
                         label="Choose a date"
+                        mask="__. ____ ____"
                         maxDate={new Date()}
                         value={pickedDate}
                         showTodayButton
@@ -37,11 +37,14 @@ const {pickedDate, setPickedDate} = dateState();
                         }}
                         renderInput={(params) => <TextField {...params} />}
                     />
-                <Button variant="text" onClick={()=>{
-                        setPickedDate(moment().add(1, 'days'))
-                    }}>
-                    <NavigateNextIcon />
-                </Button>
+                    <Button
+                        variant="text"
+                        onClick={() => {
+                            setPickedDate(moment().add(1, 'days'))
+                        }}
+                    >
+                        <NavigateNextIcon />
+                    </Button>
                 </Stack>
             </LocalizationProvider>
         </div>

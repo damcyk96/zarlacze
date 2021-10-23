@@ -7,13 +7,16 @@ import Loader from '../Loader'
 import InputLabel from '@mui/material/InputLabel'
 import MenuItem from '@mui/material/MenuItem'
 import Select from '@mui/material/Select'
-import useAllEntries from '../../graphql/queries/useAllEntries/useAllEntries'
 import { Container } from '@mui/material'
 import { Box } from '@mui/system'
 import Button from '@mui/material/Button'
 import Stack from '@mui/material/Stack'
-import { GET_ALL_ENTRIES } from './../../graphql/queries/useAllEntries/useAllEntries'
 import { useMutation, gql } from '@apollo/client'
+import { dateState } from '../../context/date'
+import useGetEntriesByDate, {
+    GET_ENTRIES_BY_DATE,
+} from '../../graphql/queries/useGetEntriesByDate'
+import useGetAllEntries, { GET_ALL_ENTRIES } from '../../graphql/queries/useGetAllEntries'
 
 const DELETE_ENTRY = gql`
     mutation DeleteEntry($_id: MongoID!) {
@@ -24,8 +27,15 @@ const DELETE_ENTRY = gql`
 `
 
 const Entries = () => {
-    const { data, loading, error } = useAllEntries()
     const [value, setValue] = useState(null)
+    const { dateQueryFormat } = dateState()
+
+    // const { data, loading, error } = useGetEntriesByDate({
+    //     variables: {
+    //         date: dateQueryFormat,
+    //     },
+    // })
+    const { data, loading, error } = useGetAllEntries()
     const [deleteEntry] = useMutation(DELETE_ENTRY, {
         refetchQueries: [GET_ALL_ENTRIES, 'GetAllEntries'],
     })
@@ -34,6 +44,7 @@ const Entries = () => {
 
     return (
         <LocalizationProvider dateAdapter={AdapterDateFns}>
+            v
             <Container>
                 <h1>My entries</h1>
                 {data.map((singleEntry) => {
