@@ -11,7 +11,7 @@ import moment from 'moment'
 import { dateState } from './../../context/date'
 
 const ChooseDate = () => {
-    const { pickedDate, setPickedDate } = dateState()
+    const { pickedDate, setPickedDate, dateQueryFormat } = dateState()
 
     return (
         <div>
@@ -20,7 +20,10 @@ const ChooseDate = () => {
                     <Button
                         variant="text"
                         onClick={() => {
-                            setPickedDate(moment().add(-1, 'days'))
+                            setPickedDate(
+                                pickedDate.setDate(pickedDate.getDate() - 1)
+                            )
+                            console.log(pickedDate)
                         }}
                     >
                         <NavigateBeforeIcon />
@@ -40,7 +43,9 @@ const ChooseDate = () => {
                     <Button
                         variant="text"
                         onClick={() => {
-                            setPickedDate(moment().add(1, 'days'))
+                            setPickedDate(
+                                pickedDate.setDate(pickedDate.getDate() + 1)
+                            )
                         }}
                     >
                         <NavigateNextIcon />

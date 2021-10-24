@@ -7,7 +7,7 @@ const EntriesWithDatePicker = () => {
     return (
         <DateStateProvider>
             <ChooseDate />
-            <Entries />
+            {/* <Entries /> */}
         </DateStateProvider>
     )
 }

@@ -1,15 +1,15 @@
-import Bundles from './components/Bundles/Bundles'
 import ChooseDate from './components/ChooseDate'
 import DashBoard from './components/Dashboard/Dashboard'
 import Entries from './components/Entries/Entries'
 import Login from './components/Login/Login'
 import NewEntry from './components/NewEntry'
+import Bundles from './pages/Bundles'
 import EntriesWithDatePicker from './pages/EntriesWithDatePicker'
 
 function App() {
     return (
         <div className="App">
-            <EntriesWithDatePicker />
+           <EntriesWithDatePicker />
         </div>
     )
 }
