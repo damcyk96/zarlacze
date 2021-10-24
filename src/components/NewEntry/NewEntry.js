@@ -1,7 +1,9 @@
-import { gql, useMutation } from '@apollo/client'
+import { useMutation } from '@apollo/client'
 import { useState } from 'react'
+import { CREATE_ENTRY } from '../../graphql/mutations/createEntryMutation'
 import { GET_ALL_ENTRIES } from '../../graphql/queries/useGetAllEntries'
 
+<<<<<<< HEAD
 const CREATE_ENTRY = gql`
   mutation CreateEntry($record: EntryCreateTypeInput) {
     createEntry(record: $record) {
@@ -14,6 +16,9 @@ const CREATE_ENTRY = gql`
     }
   }
 `
+=======
+
+>>>>>>> 50c69b0a072883ab9594260524d614202f8894fe
 
 const NewEntry = () => {
   const [newEntryValue, setNewEntryValue] = useState('')

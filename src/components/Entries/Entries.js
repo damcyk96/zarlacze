@@ -17,7 +17,11 @@ import useGetEntriesByDate, {
   GET_ENTRIES_BY_DATE,
 } from '../../graphql/queries/useGetEntriesByDate'
 import useGetAllEntries, {
+<<<<<<< HEAD
   GET_ALL_ENTRIES,
+=======
+    GET_ALL_ENTRIES,
+>>>>>>> 50c69b0a072883ab9594260524d614202f8894fe
 } from '../../graphql/queries/useGetAllEntries'
 
 const DELETE_ENTRY = gql`
