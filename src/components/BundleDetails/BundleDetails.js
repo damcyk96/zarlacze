@@ -42,7 +42,7 @@ const BundleDetails = () => {
       variables: {
         filter: '605bb7a80d74c124378744d1',
         page: page,
-      }
+      },
     })
   }
 
@@ -68,8 +68,9 @@ const BundleDetails = () => {
           </Box>
           <Box>
             <Button
-              onClose={() => {
+              onClick={() => {
                 setPage(1)
+                /* TO DO tutaj routing do /bundles */
               }}
             >
               <CancelIcon fontSize="large" color="error" />
