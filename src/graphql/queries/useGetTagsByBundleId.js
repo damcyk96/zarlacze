@@ -1,10 +1,10 @@
 import { gql, useQuery } from '@apollo/client'
 
-export const GET_BUNDLE_BY_ID = gql`
-  query getPagination($filter: FilterFindManyTagOperatorsInput!, $page: Int!) {
+export const GET_TAGS_BY_ID = gql`
+  query getPagination($filter: MongoID!, $page: Int!) {
     tagPagination(
       filter: { tagBundleId: $filter }
-      page: 1
+      page: $page
       perPage: 10
     ) {
       pageInfo {
@@ -23,10 +23,14 @@ export const GET_BUNDLE_BY_ID = gql`
   }
 `
 
-export const useGetTagsByBundleId = () => {
-  const { data, loading, error } = useQuery(GET_BUNDLE_BY_ID)
+// export const useGetTagsByBundleId = (id, page) => {
+//   const { data, loading, error } = useQuery(GET_BUNDLE_BY_ID, {
+//       variables: {
+//         filter: id,
+//         page: page
+//       }
+//   })
 
-  return { data, loading, error }
-}
+//   return { data: data && data.tagBundleById, loading, error }
+// }
 
-export default useGetTagsByBundleId

@@ -4,6 +4,7 @@ import Bundles from '../../pages/Bundles/Bundles'
 import EntriesWithDatePicker from '../../pages/EntriesWithDatePicker/EntriesWithDatePicker'
 import Login from '../Login'
 import BundlesSettings from '../../pages/BundlesSettings'
+import BundleDetails from '../../pages/BundleDetails'
 
 const PageContent = () => {
   return (
@@ -12,6 +13,7 @@ const PageContent = () => {
       <Route path="/login" component={Login} />
       <Route path="/bundles" component={Bundles} />
       <Route path="/settings" component={BundlesSettings} />
+      <Route path="/details" component={BundleDetails} />
     </Switch>
   )
 }

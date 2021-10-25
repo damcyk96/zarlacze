@@ -1,4 +1,4 @@
-import { gql, useQuery } from '@apollo/client'
+import { gql } from '@apollo/client'
 
 export const GET_BUNDLE_BY_ID = gql`
   query TagBundleById($_id: MongoID!) {
@@ -15,14 +15,12 @@ export const GET_BUNDLE_BY_ID = gql`
   }
 `
 
-export const useGetBundleById = (bundleId) => {
-  const { data, loading, error } = useQuery(GET_BUNDLE_BY_ID, {
-      variables: {
-          _id: bundleId
-      }
-  })
+// export const useGetBundleById = (bundleId) => {
+//   const { data, loading, error } = useQuery(GET_BUNDLE_BY_ID, {
+//       variables: {
+//           _id: bundleId
+//       }
+//   })
 
-  return { data, loading, error }
-}
-
-export default useGetBundleById
+//   return { data, loading, error }
+// }
