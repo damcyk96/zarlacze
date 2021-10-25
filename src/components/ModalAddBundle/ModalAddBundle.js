@@ -2,13 +2,12 @@ import React, { useState } from 'react'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Modal from '@mui/material/Modal'
-import { modalState } from '../../context/modalOpen'
+import { addModalState, modalState } from '../../context/addModalOpen'
 import { TextareaAutosize, TextField } from '@mui/material'
 import CancelIcon from '@mui/icons-material/Cancel'
 import { useMutation } from '@apollo/client'
 import { CREATE_BUNDLE } from '../../graphql/mutations/createNewBundle'
-import { GET_ACTIVE_BUNDLES } from '../../graphql/queries/useGetActiveBundles'
-import { ASSIGN_BUNDLE } from '../../graphql/mutations/assignBundleById'
+import { GET_ALL_BUNDLES } from './../../graphql/queries/useGetAllBundles'
 
 const style = {
   position: 'absolute',
@@ -23,10 +22,8 @@ const style = {
 }
 
 const ModalAddBundle = () => {
-  const [addBundle] = useMutation(CREATE_BUNDLE)
-
-  const [assignBundle] = useMutation(ASSIGN_BUNDLE, {
-    refetchQueries: [GET_ACTIVE_BUNDLES, 'GetActiveBundles'],
+  const [addBundle] = useMutation(CREATE_BUNDLE, {
+    refetchQueries: [GET_ALL_BUNDLES, 'GetAllBundles'],
   })
 
   const handleAddBundle = () => {
@@ -37,28 +34,27 @@ const ModalAddBundle = () => {
           description: bundleDescription,
         },
       },
-    }).then((response) => {
-      console.log(response)
-      assignBundle({
-        variables: {
-          bundleId: response.data.tagBundleCreateOne.recordId,
-        },
-      })
     })
   }
-  const { handleClose, isOpen } = modalState()
+  const { isAddModalOpen, setIsAddModalOpen } = addModalState()
   const [bundleName, setBundleName] = useState('')
   const [bundleDescription, setBundleDescription] = useState('')
   return (
     <div>
       <Modal
-        open={isOpen}
-        onClose={handleClose}
+        open={isAddModalOpen}
+        onClose={() => {
+          setIsAddModalOpen(false)
+        }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Button onClick={handleClose}>
+          <Button
+            onClick={() => {
+              setIsAddModalOpen(false)
+            }}
+          >
             <CancelIcon fontSize="large" color="error" />
           </Button>
           <Box display="flex" flexDirection="column">
@@ -82,7 +78,7 @@ const ModalAddBundle = () => {
               style={{ marginTop: '2rem' }}
               onClick={() => {
                 handleAddBundle()
-                handleClose()
+                setIsAddModalOpen(false)
               }}
             >
               Add bundle
