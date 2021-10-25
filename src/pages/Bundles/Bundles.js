@@ -1,16 +1,21 @@
 import React from 'react'
 import { Container } from '@mui/material'
 import BundlesListWithAdding from '../../components/BundlesListWithAdding/BundlesListWithAdding'
-import { ModalStateProvider } from '../../context/modalOpen'
+import { AddModalStateProvider } from '../../context/addModalOpen'
+import { DetailsModalStateProvider } from '../../context/detailsModalOpen'
 import ModalAddBundle from '../../components/ModalAddBundle/ModalAddBundle'
+import ModalBundleDetails from '../../components/ModalBundleDetails/ModalBundleDetails'
 
 const Bundles = () => {
   return (
     <Container>
-      <ModalStateProvider>
-        <BundlesListWithAdding />
-        <ModalAddBundle />
-      </ModalStateProvider>
+      <AddModalStateProvider>
+        <DetailsModalStateProvider>
+          <BundlesListWithAdding />
+          <ModalAddBundle />
+          <ModalBundleDetails />
+        </DetailsModalStateProvider>
+      </AddModalStateProvider>
     </Container>
   )
 }
