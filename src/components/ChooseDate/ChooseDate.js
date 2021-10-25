@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import TextField from '@mui/material/TextField'
 import AdapterDateFns from '@mui/lab/AdapterDateFns'
 import LocalizationProvider from '@mui/lab/LocalizationProvider'
@@ -7,11 +7,13 @@ import Stack from '@mui/material/Stack'
 import NavigateNextIcon from '@mui/icons-material/NavigateNext'
 import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore'
 import Button from '@mui/material/Button'
-import moment from 'moment'
+import { add } from 'date-fns'
 import { dateState } from './../../context/date'
 
 const ChooseDate = () => {
   const { pickedDate, setPickedDate } = dateState()
+
+  const maxDay = new Date().toDateString()
 
   return (
     <div>
@@ -20,7 +22,17 @@ const ChooseDate = () => {
           <Button
             variant="text"
             onClick={() => {
-              setPickedDate(moment().add(-1, 'days'))
+              setPickedDate(
+                add(pickedDate, {
+                  years: 0,
+                  months: 0,
+                  weeks: 0,
+                  days: -1,
+                  hours: 0,
+                  minutes: 0,
+                  seconds: 0,
+                })
+              )
             }}
           >
             <NavigateBeforeIcon />
@@ -39,8 +51,19 @@ const ChooseDate = () => {
           />
           <Button
             variant="text"
+            disabled={pickedDate.toDateString() === maxDay}
             onClick={() => {
-              setPickedDate(moment().add(1, 'days'))
+              setPickedDate(
+                add(pickedDate, {
+                  years: 0,
+                  months: 0,
+                  weeks: 0,
+                  days: 1,
+                  hours: 0,
+                  minutes: 0,
+                  seconds: 0,
+                })
+              )
             }}
           >
             <NavigateNextIcon />
