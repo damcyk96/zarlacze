@@ -5,6 +5,10 @@ import Modal from '@mui/material/Modal'
 import { modalState } from '../../context/modalOpen'
 import { TextareaAutosize, TextField } from '@mui/material'
 import CancelIcon from '@mui/icons-material/Cancel'
+import { useMutation } from '@apollo/client'
+import { CREATE_BUNDLE } from '../../graphql/mutations/createNewBundle'
+import { GET_ACTIVE_BUNDLES } from '../../graphql/queries/useGetActiveBundles'
+import { ASSIGN_BUNDLE } from '../../graphql/mutations/assignBundleById'
 
 const style = {
   position: 'absolute',
@@ -19,6 +23,29 @@ const style = {
 }
 
 const ModalAddBundle = () => {
+  const [addBundle] = useMutation(CREATE_BUNDLE)
+
+  const [assignBundle] = useMutation(ASSIGN_BUNDLE, {
+    refetchQueries: [GET_ACTIVE_BUNDLES, 'GetActiveBundles'],
+  })
+
+  const handleAddBundle = () => {
+    addBundle({
+      variables: {
+        record: {
+          name: bundleName,
+          description: bundleDescription,
+        },
+      },
+    }).then((response) => {
+      console.log(response)
+      assignBundle({
+        variables: {
+          bundleId: response.data.tagBundleCreateOne.recordId,
+        },
+      })
+    })
+  }
   const { handleClose, isOpen } = modalState()
   const [bundleName, setBundleName] = useState('')
   const [bundleDescription, setBundleDescription] = useState('')
@@ -50,7 +77,14 @@ const ModalAddBundle = () => {
               placeholder="Description bundle"
               onChange={(e) => setBundleDescription(e.target.value)}
             />
-            <Button variant="contained" style={{ marginTop: '2rem' }}>
+            <Button
+              variant="contained"
+              style={{ marginTop: '2rem' }}
+              onClick={() => {
+                handleAddBundle()
+                handleClose()
+              }}
+            >
               Add bundle
             </Button>
           </Box>
