@@ -14,16 +14,14 @@ const Bundles = () => {
   return (
     <div>
       <h1>My bundles</h1>
-      {data.map((bundle) => {
-        return (
-          <FormGroup>
-            <FormControlLabel
-              control={<Checkbox defaultChecked />}
-              label={bundle.name}
-            />
-          </FormGroup>
-        )
-      })}
+      {data.map((bundle, index) => (
+        <FormGroup key={index}>
+          <FormControlLabel
+            control={<Checkbox defaultChecked />}
+            label={bundle.name}
+          />
+        </FormGroup>
+      ))}
     </div>
   )
 }
