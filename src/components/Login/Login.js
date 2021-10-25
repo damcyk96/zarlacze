@@ -11,6 +11,7 @@ import {
 } from '@mui/material'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import selleoBg from './../../assets/images/selleoBg.png'
+import selleoLogo from './../../assets/images/selleoLogo.png'
 
 function Copyright(props) {
   return (
