@@ -3,23 +3,23 @@ import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import { Container, TextareaAutosize } from '@mui/material'
 import CancelIcon from '@mui/icons-material/Cancel'
-import { detailsModalState } from '../../context/detailsModalOpen'
 import { GET_BUNDLE_BY_ID } from '../../graphql/queries/useGetBundleById'
 import { GET_TAGS_BY_ID } from '../../graphql/queries/useGetTagsByBundleId'
 import Loader from '../Loader/Loader'
-import { useQuery } from '@apollo/client'
+import { useQuery, useMutation } from '@apollo/client'
 import Pagination from '@mui/material/Pagination'
 import Stack from '@mui/material/Stack'
 import { GET_PROFILE } from '../../graphql/queries/useGetProfile'
+import { EDIT_DESCRIPTION_BUNDLE } from '../../graphql/mutations/editDescriptionBundle'
 
 const BundleDetails = () => {
   const [page, setPage] = useState(1)
   const [profileId, setProfileId] = useState('')
   const [creatorId, setCreatorId] = useState('')
+  const [description, setDescription] = useState('')
   const userData = useQuery(GET_PROFILE)
 
   const [bundleDescription, setBundleDescription] = useState('')
-  detailsModalState()
   const bundleResponse = useQuery(GET_BUNDLE_BY_ID, {
     variables: {
       // _id: bundleId,
@@ -34,6 +34,16 @@ const BundleDetails = () => {
       page: page,
     },
   })
+  const [editDescription] = useMutation(EDIT_DESCRIPTION_BUNDLE)
+
+  const handleEditDescription = (bundleId, description) => {
+    editDescription({
+      variables: {
+        bundleId: bundleId,
+        description: description,
+      },
+    })
+  }
 
   const handleChange = (event, value) => {
     setPage(value)
@@ -46,6 +56,7 @@ const BundleDetails = () => {
   }
   useEffect(() => {
     if (userData.data && bundleResponse.data) {
+      setDescription(bundleResponse.data.tagBundleById.description)
       setProfileId(userData.data.getProfile._id)
       if (bundleResponse.data.tagBundleById.creator != null) {
         setCreatorId(bundleResponse.data.tagBundleById.creator._id)
@@ -55,9 +66,12 @@ const BundleDetails = () => {
     }
   }, [userData.data, bundleResponse.data])
 
-  console.log(creatorId)
+  console.log(description)
 
   if (bundleResponse.loading || tagsResponse.loading) return <Loader />
+  const handleChangeTextArea = (event) => {
+    setDescription(event.target.value)
+  }
 
   return (
     <div>
@@ -71,11 +85,14 @@ const BundleDetails = () => {
                 aria-label="minimum height"
                 minRows={6}
                 placeholder="Description bundle"
-                onChange={(e) => setBundleDescription(e.target.value)}
+                onChange={handleChangeTextArea}
                 disabled={creatorId !== profileId}
-              >
-                {bundleResponse.data.tagBundleById.description}
-              </TextareaAutosize>
+                value={description}
+                onBlur={() => {
+                  handleEditDescription('6176e9a21322518c90158ad1', description)
+                  /*nie chce sie setnac description */
+                }}
+              />
             </Box>
           </Box>
           <Box>
