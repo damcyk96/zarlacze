@@ -10,6 +10,7 @@ import {
   Typography,
 } from '@mui/material'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
+import selleoBg from './../../assets/images/selleoBg.png'
 
 function Copyright(props) {
   return (
@@ -45,7 +46,7 @@ export default function Login() {
           md={7}
           sx={{
             backgroundImage:
-              'url(https://s3.amazonaws.com/a.storyblok.com/f/86602/1920x1080/2d20d41769/selleo-team-2020.png)',
+              `url(${selleoBg})`,
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center',
             backgroundSize: 'cover',
