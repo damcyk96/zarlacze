@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
-import { Container, TextareaAutosize } from '@mui/material'
+import { Container, Tab, TextareaAutosize } from '@mui/material'
 import CancelIcon from '@mui/icons-material/Cancel'
 import { detailsModalState } from '../../context/detailsModalOpen'
 import useGetBundleById, {
@@ -38,6 +38,12 @@ const BundleDetails = () => {
 
   const handleChange = (event, value) => {
     setPage(value)
+    tagsResponse.fetchMore({
+      variables: {
+        filter: '605bb7a80d74c124378744d1',
+        page: page,
+      }
+    })
   }
 
   if (bundleResponse.loading || tagsResponse.loading) return <Loader />
