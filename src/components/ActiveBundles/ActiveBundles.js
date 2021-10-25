@@ -11,7 +11,6 @@ import useGetActiveBundles, {
 import { Button } from '@mui/material'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import { UNASSIGN_BUNDLE } from '../../graphql/mutations/unAssignBundleByid'
-import { GET_ALL_BUNDLES } from '../../graphql/queries/useGetAllBundles'
 import { useMutation } from '@apollo/client'
 
 const ActiveBundles = () => {
