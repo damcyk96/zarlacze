@@ -3,22 +3,18 @@ import { useState } from 'react'
 import { CREATE_ENTRY } from '../../graphql/mutations/createEntryMutation'
 import { GET_ALL_ENTRIES } from '../../graphql/queries/useGetAllEntries'
 
-<<<<<<< HEAD
-const CREATE_ENTRY = gql`
-  mutation CreateEntry($record: EntryCreateTypeInput) {
-    createEntry(record: $record) {
-      _id
-      startTime
-      endTime
-      tag {
-        name
-      }
-    }
-  }
-`
-=======
-
->>>>>>> 50c69b0a072883ab9594260524d614202f8894fe
+// const CREATE_ENTRY = gql`
+//   mutation CreateEntry($record: EntryCreateTypeInput) {
+//     createEntry(record: $record) {
+//       _id
+//       startTime
+//       endTime
+//       tag {
+//         name
+//       }
+//     }
+//   }
+// `
 
 const NewEntry = () => {
   const [newEntryValue, setNewEntryValue] = useState('')
