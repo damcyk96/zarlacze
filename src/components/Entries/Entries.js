@@ -46,11 +46,10 @@ const Entries = () => {
 
   return (
     <LocalizationProvider dateAdapter={AdapterDateFns}>
-      <Container>
-        <h1>My entries</h1>
+      <Box display="flex" justifyContent="center" flexDirection="column">
         {data.map((singleEntry) => {
           return (
-            <Box display="flex" justifyContent="center" key={singleEntry._id}>
+            <Box display="flex" justifyContent="center" key={singleEntry._id} marginTop="2rem">
               <Stack direction="row" spacing={2}>
                 <TimePicker
                   flex
@@ -77,6 +76,8 @@ const Entries = () => {
                   id="demo-simple-select"
                   label="Bundle"
                   value={singleEntry.tag.tagBundle.name}
+                  style={{minWidth: "12rem"}}
+
                 >
                   <MenuItem value={singleEntry.tag.tagBundle.name}>
                     {singleEntry.tag.tagBundle.name}
@@ -88,6 +89,7 @@ const Entries = () => {
                   id="demo-simple-select"
                   label="Tag"
                   value={singleEntry.tag.name}
+                  style={{minWidth: "12rem"}}
                 >
                   <MenuItem value={singleEntry.tag.name}>
                     {singleEntry.tag.name}
@@ -110,7 +112,7 @@ const Entries = () => {
             </Box>
           )
         })}
-      </Container>
+      </Box>
     </LocalizationProvider>
   )
 }

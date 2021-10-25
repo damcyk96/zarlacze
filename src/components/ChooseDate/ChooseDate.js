@@ -9,6 +9,7 @@ import NavigateBeforeIcon from '@mui/icons-material/NavigateBefore'
 import Button from '@mui/material/Button'
 import moment from 'moment'
 import { dateState } from './../../context/date'
+import { Box } from '@mui/system'
 
 const ChooseDate = () => {
   const { pickedDate, setPickedDate } = dateState()
@@ -16,6 +17,7 @@ const ChooseDate = () => {
   return (
     <div>
       <LocalizationProvider dateAdapter={AdapterDateFns}>
+        <Box display="flex" justifyContent="center">
         <Stack spacing={2} direction="row">
           <Button
             variant="text"
@@ -46,6 +48,7 @@ const ChooseDate = () => {
             <NavigateNextIcon />
           </Button>
         </Stack>
+        </Box>
       </LocalizationProvider>
     </div>
   )
