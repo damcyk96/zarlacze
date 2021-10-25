@@ -37,6 +37,7 @@ export default function SingleEntry({ singleEntry }) {
         id="demo-simple-select"
         label="Bundle"
         value={singleEntry.tag?.tagBundle.name}
+        style={{minWidth: "12rem"}}
       >
         <MenuItem value={singleEntry.tag?.tagBundle.name}>
           {singleEntry.tag?.tagBundle.name}
@@ -48,6 +49,8 @@ export default function SingleEntry({ singleEntry }) {
         id="demo-simple-select"
         label="Tag"
         value={singleEntry.tag?.name}
+        style={{minWidth: "12rem"}}
+
       >
         <MenuItem value={singleEntry.tag?.name}>
           {singleEntry.tag?.name}

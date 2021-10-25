@@ -15,7 +15,7 @@ import { useMutation } from '@apollo/client'
 import { modalState } from '../../context/modalOpen'
 
 const BundlesListWithAdding = () => {
-  const { handleOpen, isOpen, setIsOpen } = modalState()
+  const {isOpen, setIsOpen } = modalState()
 
   const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
