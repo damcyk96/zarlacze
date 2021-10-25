@@ -5,17 +5,14 @@ import Stack from '@mui/material/Stack'
 import { styled } from '@mui/material/styles'
 import Loader from '../Loader'
 import { Box } from '@mui/system'
-import useGetActiveBundles, {
-  GET_ACTIVE_BUNDLES,
-} from '../../graphql/queries/useGetActiveBundles'
 import { Button, Container } from '@mui/material'
-import { UNASSIGN_BUNDLE } from '../../graphql/mutations/unAssignBundleByid'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
 import { useMutation } from '@apollo/client'
 import { modalState } from '../../context/modalOpen'
+import useGetAllBundles from '../../graphql/queries/useGetAllBundles'
 
 const BundlesListWithAdding = () => {
-  const {isOpen, setIsOpen } = modalState()
+  const { isOpen, setIsOpen } = modalState()
 
   const Item = styled(Paper)(({ theme }) => ({
     ...theme.typography.body2,
@@ -27,7 +24,7 @@ const BundlesListWithAdding = () => {
     minWidth: '10rem',
   }))
 
-  const { data, loading, error } = useGetActiveBundles()
+  const { data, loading, error } = useGetAllBundles()
 
   if (loading) return <Loader />
   if (error) return <div>Error :(</div>
@@ -51,10 +48,11 @@ const BundlesListWithAdding = () => {
         })}
       </Box>
       <Box display="flex" justifyContent="end">
-        <Button onClick={()=>{
-         setIsOpen(true);
-         console.log(isOpen)
-        }}>
+        <Button
+          onClick={() => {
+            setIsOpen(true)
+          }}
+        >
           <AddCircleIcon fontSize="large" />
         </Button>
       </Box>

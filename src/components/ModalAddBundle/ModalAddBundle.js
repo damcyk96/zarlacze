@@ -7,8 +7,7 @@ import { TextareaAutosize, TextField } from '@mui/material'
 import CancelIcon from '@mui/icons-material/Cancel'
 import { useMutation } from '@apollo/client'
 import { CREATE_BUNDLE } from '../../graphql/mutations/createNewBundle'
-import { GET_ACTIVE_BUNDLES } from '../../graphql/queries/useGetActiveBundles'
-import { ASSIGN_BUNDLE } from '../../graphql/mutations/assignBundleById'
+import { GET_ALL_BUNDLES } from './../../graphql/queries/useGetAllBundles'
 
 const style = {
   position: 'absolute',
@@ -23,10 +22,8 @@ const style = {
 }
 
 const ModalAddBundle = () => {
-  const [addBundle] = useMutation(CREATE_BUNDLE)
-
-  const [assignBundle] = useMutation(ASSIGN_BUNDLE, {
-    refetchQueries: [GET_ACTIVE_BUNDLES, 'GetActiveBundles'],
+  const [addBundle] = useMutation(CREATE_BUNDLE, {
+    refetchQueries: [GET_ALL_BUNDLES, 'GetAllBundles'],
   })
 
   const handleAddBundle = () => {
@@ -37,13 +34,6 @@ const ModalAddBundle = () => {
           description: bundleDescription,
         },
       },
-    }).then((response) => {
-      console.log(response)
-      assignBundle({
-        variables: {
-          bundleId: response.data.tagBundleCreateOne.recordId,
-        },
-      })
     })
   }
   const { handleClose, isOpen } = modalState()
