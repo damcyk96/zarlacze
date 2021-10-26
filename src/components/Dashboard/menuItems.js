@@ -9,40 +9,50 @@ import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 import { Divider } from '@mui/material'
 import { Link } from 'react-router-dom'
 
-export const menuItems = (
-  <div>
-    <Link to="/">
-      <ListItem button>
-        <ListItemIcon>
-          <CalendarTodayIcon />
-        </ListItemIcon>
-        <ListItemText primary="Calendar" />
-      </ListItem>
-    </Link>
+const MenuItems = () => {
+  const handleLogout = () => {
+    localStorage.removeItem('user-name')
+  }
 
-    <Link to="/bundles">
-      <ListItem button>
-        <ListItemIcon>
-          <TagIcon />
-        </ListItemIcon>
-        <ListItemText primary="Bundle" />
-      </ListItem>
-    </Link>
+  return (
+    <div>
+      <Link to="/">
+        <ListItem button>
+          <ListItemIcon>
+            <CalendarTodayIcon />
+          </ListItemIcon>
+          <ListItemText primary="Calendar" />
+        </ListItem>
+      </Link>
 
-    <Link to="/settings">
-      <ListItem button>
-        <ListItemIcon>
-          <SettingsSuggestIcon />
-        </ListItemIcon>
-        <ListItemText primary="Settings" />
-      </ListItem>
-    </Link>
-    <Divider />
-    <ListItem button>
-      <ListItemIcon>
-        <ExitToAppIcon color="error" />
-      </ListItemIcon>
-      <ListItemText primary="Logout" />
-    </ListItem>
-  </div>
-)
+      <Link to="/bundles">
+        <ListItem button>
+          <ListItemIcon>
+            <TagIcon />
+          </ListItemIcon>
+          <ListItemText primary="Bundle" />
+        </ListItem>
+      </Link>
+
+      <Link to="/settings">
+        <ListItem button>
+          <ListItemIcon>
+            <SettingsSuggestIcon />
+          </ListItemIcon>
+          <ListItemText primary="Settings" />
+        </ListItem>
+      </Link>
+      <Divider />
+      <Link to="/login">
+        <ListItem button onClick={handleLogout}>
+          <ListItemIcon>
+            <ExitToAppIcon color="error" />
+          </ListItemIcon>
+          <ListItemText primary="Logout" />
+        </ListItem>
+      </Link>
+    </div>
+  )
+}
+
+export default MenuItems
