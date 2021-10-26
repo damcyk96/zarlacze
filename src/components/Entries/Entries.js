@@ -8,7 +8,7 @@ import {
   Stack,
 } from '@mui/material'
 import DateAdapter from '@mui/lab/AdapterDateFns'
-import { LocalizationProvider, TimePicker } from '@mui/lab'
+import { LocalizationProvider } from '@mui/lab'
 import SingleEntry from '../SingleEntry'
 import Loader from '../Loader'
 import { format } from 'date-fns'
@@ -44,32 +44,34 @@ const Entries = () => {
     refetchQueries: [GET_ALL_ENTRIES, 'GetAllEntries'],
   })
 
+  const arr = data?.map((singleEntry) => (
+    <Box display="flex" justifyContent="center" key={singleEntry._id}>
+      <Stack direction="row" spacing={2}>
+        <SingleEntry singleEntry={singleEntry} />
+        <Button
+          variant="outlined"
+          color="error"
+          onClick={() => {
+            deleteEntry({
+              variables: {
+                _id: singleEntry._id,
+              },
+            })
+          }}
+        >
+          Delete
+        </Button>
+      </Stack>
+    </Box>
+  ))
+
   if (loading) return <Loader />
 
   return (
     <LocalizationProvider dateAdapter={DateAdapter}>
       <Container>
         <h1>My entries</h1>
-        {data.map((singleEntry) => (
-          <Box display="flex" justifyContent="center" key={singleEntry._id}>
-            <Stack direction="row" spacing={2}>
-              <SingleEntry singleEntry={singleEntry} />
-              <Button
-                variant="outlined"
-                color="error"
-                onClick={() => {
-                  deleteEntry({
-                    variables: {
-                      _id: singleEntry._id,
-                    },
-                  })
-                }}
-              >
-                Delete
-              </Button>
-            </Stack>
-          </Box>
-        ))}
+        {arr}
       </Container>
     </LocalizationProvider>
   )

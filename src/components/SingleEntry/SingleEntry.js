@@ -1,13 +1,15 @@
 import React, { useState } from 'react'
-import { TextField, MenuItem, Select, Stack } from '@mui/material'
-import { Box } from '@mui/system'
+import { TextField, MenuItem, Select } from '@mui/material'
 import { format } from 'date-fns'
 import { TimePicker } from '@mui/lab'
 
 export default function SingleEntry({ singleEntry }) {
-  const [startValue, setStartValue] = useState(singleEntry.startTime)
-  const [endValue, setEndValue] = useState(singleEntry.endTime)
-  console.log(singleEntry)
+  const [startValue, setStartValue] = useState(new Date(singleEntry.createdAt))
+  const [endValue, setEndValue] = useState(singleEntry.endTime || undefined)
+  console.log(singleEntry.createdAt, new Date(singleEntry.createdAt))
+  console.log('start', startValue)
+
+  const minTime = new Date(singleEntry.createdAt)
 
   return (
     <>
@@ -17,15 +19,16 @@ export default function SingleEntry({ singleEntry }) {
         value={startValue}
         ampm={false}
         onChange={(newValue) => {
+          console.log(newValue)
           setStartValue(newValue)
         }}
         renderInput={(params) => <TextField {...params} />}
       />
       <TimePicker
         label="End time"
-        value={endValue}
+        value={endValue || startValue}
         ampm={false}
-        minTime={startValue}
+        minTime={startValue && new Date(startValue)}
         onChange={(newValue) => {
           setEndValue(newValue)
         }}
@@ -37,7 +40,7 @@ export default function SingleEntry({ singleEntry }) {
         id="demo-simple-select"
         label="Bundle"
         value={singleEntry.tag?.tagBundle.name}
-        style={{minWidth: "12rem"}}
+        style={{ minWidth: '12rem' }}
       >
         <MenuItem value={singleEntry.tag?.tagBundle.name}>
           {singleEntry.tag?.tagBundle.name}
@@ -49,8 +52,7 @@ export default function SingleEntry({ singleEntry }) {
         id="demo-simple-select"
         label="Tag"
         value={singleEntry.tag?.name}
-        style={{minWidth: "12rem"}}
-
+        style={{ minWidth: '12rem' }}
       >
         <MenuItem value={singleEntry.tag?.name}>
           {singleEntry.tag?.name}

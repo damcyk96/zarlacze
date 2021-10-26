@@ -1,9 +1,10 @@
+
 import { gql, useQuery } from '@apollo/client'
 
 export const GET_PROFILE = gql`
   query GetProfile {
     getProfile {
-      _id
+      oauthId
     }
   }
 `
@@ -15,3 +16,4 @@ export const useGetProfile = () => {
 }
 
 export default useGetProfile
+

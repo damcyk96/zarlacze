@@ -9,6 +9,7 @@ import {
   Grid,
   Typography,
 } from '@mui/material'
+import { useHistory } from 'react-router-dom'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import selleoBg from './../../assets/images/selleoBg.png'
 import selleoLogo from './../../assets/images/selleoLogo.png'
@@ -34,6 +35,14 @@ function Copyright(props) {
 const theme = createTheme()
 
 export default function Login() {
+  const [userName, setUserName] = React.useState('')
+  const history = useHistory()
+
+  const handleLogin = () => {
+    localStorage.setItem('user-name', userName)
+
+    history.replace('/')
+  }
   return (
     <ThemeProvider theme={theme}>
       <Grid container component="main" sx={{ height: '100vh' }}>
@@ -46,8 +55,7 @@ export default function Login() {
           sm={4}
           md={7}
           sx={{
-            backgroundImage:
-              `url(${selleoBg})`,
+            backgroundImage: `url(${selleoBg})`,
             backgroundRepeat: 'no-repeat',
             backgroundPosition: 'center',
             backgroundSize: 'cover',
@@ -93,12 +101,15 @@ export default function Login() {
                 name="name"
                 autoComplete="name"
                 autoFocus
+                onChange={(event) => setUserName(event.target.value)}
               />
               <Button
                 type="submit"
                 fullWidth
                 variant="contained"
+                disabled={!userName}
                 sx={{ mt: 3, mb: 2 }}
+                onClick={handleLogin}
               >
                 Sign In
               </Button>
