@@ -11,7 +11,7 @@ export const GET_PROFILE = gql`
 export const useGetProfile = () => {
   const { data, loading, error } = useQuery(GET_PROFILE)
 
-  return { data: data && data.entryMany, loading, error }
+  return { data: data && data.getProfile, loading, error }
 }
 
 export default useGetProfile

@@ -107,6 +107,7 @@ export default function Login() {
                 type="submit"
                 fullWidth
                 variant="contained"
+                disabled={!userName}
                 sx={{ mt: 3, mb: 2 }}
                 onClick={handleLogin}
               >
