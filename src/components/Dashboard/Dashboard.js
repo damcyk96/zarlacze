@@ -8,7 +8,7 @@ import {
   List,
   Typography,
 } from '@mui/material'
-import { menuItems } from './menuItems'
+import MenuItems from './MenuItems'
 import PageContent from '../PageContent'
 import { useGetProfile } from '../../graphql/queries/useGetProfile'
 
@@ -43,7 +43,9 @@ function Dashboard() {
       >
         <Toolbar />
         <Box sx={{ overflow: 'auto' }}>
-          <List>{menuItems}</List>
+          <List>
+            <MenuItems />
+          </List>
         </Box>
       </Drawer>
       <Box component="main" sx={{ flexGrow: 1, p: 3 }}>
