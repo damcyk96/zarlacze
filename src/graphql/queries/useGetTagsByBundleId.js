@@ -1,12 +1,8 @@
 import { gql, useQuery } from '@apollo/client'
 
-export const GET_TAGS_BY_ID = gql`
-  query getPagination($filter: MongoID!, $page: Int!) {
-    tagPagination(
-      filter: { tagBundleId: $filter }
-      page: $page
-      perPage: 10
-    ) {
+export const GET_PAGINATION = gql`
+  query GetPagination($filter: MongoID!, $page: Int!) {
+    tagPagination(filter: { tagBundleId: $filter }, page: $page, perPage: 10) {
       pageInfo {
         pageCount
         itemCount
@@ -33,4 +29,3 @@ export const GET_TAGS_BY_ID = gql`
 
 //   return { data: data && data.tagBundleById, loading, error }
 // }
-

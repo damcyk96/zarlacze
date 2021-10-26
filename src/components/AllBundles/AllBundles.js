@@ -41,7 +41,7 @@ const AllBundles = () => {
 
     return (
         <div>
-            <h1>My all bundles</h1>
+            <h1>All bundles</h1>
             {data.map((bundle) => {
                 return (
                     <Box key={bundle._id}>

@@ -42,7 +42,7 @@ const ActiveBundles = () => {
 
     return (
         <div>
-            <h1 style={{ color: '#66c429' }}>My active bundles</h1>
+            <h1 style={{ color: '#66c429' }}>Active bundles</h1>
             {data.map((bundle) => {
                 return (
                     <Box key={bundle._id}>

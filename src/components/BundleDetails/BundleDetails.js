@@ -4,13 +4,13 @@ import Button from '@mui/material/Button'
 import { Container, TextareaAutosize } from '@mui/material'
 import CancelIcon from '@mui/icons-material/Cancel'
 import { GET_BUNDLE_BY_ID } from '../../graphql/queries/useGetBundleById'
-import { GET_TAGS_BY_ID } from '../../graphql/queries/useGetTagsByBundleId'
 import Loader from '../Loader/Loader'
 import { useQuery, useMutation } from '@apollo/client'
 import Pagination from '@mui/material/Pagination'
 import Stack from '@mui/material/Stack'
 import { GET_PROFILE } from '../../graphql/queries/useGetProfile'
 import { EDIT_DESCRIPTION_BUNDLE } from '../../graphql/mutations/editDescriptionBundle'
+import { GET_PAGINATION } from '../../graphql/queries/useGetTagsByBundleId'
 
 const BundleDetails = () => {
   const [page, setPage] = useState(1)
@@ -23,14 +23,14 @@ const BundleDetails = () => {
   const bundleResponse = useQuery(GET_BUNDLE_BY_ID, {
     variables: {
       // _id: bundleId,
-      _id: '6176e9a21322518c90158ad1',
+      _id: '6176cca81322518c90153373',
     },
   })
 
-  const tagsResponse = useQuery(GET_TAGS_BY_ID, {
+  const tagsResponse = useQuery(GET_PAGINATION, {
     variables: {
       // _id: bundleId,
-      filter: '6176e9a21322518c90158ad1',
+      filter: '6176cca81322518c90153373',
       page: page,
     },
   })
@@ -49,7 +49,7 @@ const BundleDetails = () => {
     setPage(value)
     tagsResponse.fetchMore({
       variables: {
-        filter: '6176e9a21322518c90158ad1',
+        filter: '6176cca81322518c90153373',
         page: page,
       },
     })

@@ -1,6 +1,10 @@
-import React, { useState } from 'react'
-import { TextField, MenuItem, Select } from '@mui/material'
+import React, { useState, useEffect } from 'react'
+import { TextField, MenuItem, Select, Autocomplete } from '@mui/material'
 import { TimePicker } from '@mui/lab'
+import useGetActiveBundles from '../../graphql/queries/useGetActiveBundles'
+import { useQuery } from '@apollo/client'
+import { GET_TAGS_BY_BUNDLE_ID } from '../../graphql/queries/useGetTagsById'
+import Loader from './../Loader/Loader'
 
 export default function SingleEntry({ singleEntry }) {
   const startValues = singleEntry.startTime.split(':')
@@ -15,7 +19,31 @@ export default function SingleEntry({ singleEntry }) {
 
   const [startValue, setStartValue] = useState(dateObj || undefined)
   const [endValue, setEndValue] = useState(dateObjEnd || undefined)
+  const [listOfActiveBundles, setListOfActiveBundles] = useState()
+  const [choosenBundle, setChoosenBundle] = useState('')
+  const [listOfTags, setListOfTags] = useState()
 
+  const handleChangeBundle = (event) => {
+    setChoosenBundle(event.target.value)
+    const pickedTags = listOfActiveBundles.filter((element) => {
+      return element.name == choosenBundle
+    })
+    if (pickedTags[0].tags) {
+      setListOfTags(pickedTags[0].tags)
+    } else {
+      setListOfTags('')
+    }
+  }
+
+  const activeBundles = useGetActiveBundles()
+
+  useEffect(() => {
+    if (activeBundles.data) {
+      setListOfActiveBundles(activeBundles.data)
+    }
+  }, [])
+
+  if (activeBundles.loading) return <Loader />
   return (
     <>
       <TimePicker
@@ -43,25 +71,28 @@ export default function SingleEntry({ singleEntry }) {
         labelId="demo-simple-select-label"
         id="demo-simple-select"
         label="Bundle"
-        value={singleEntry.tag?.tagBundle.name}
+        value={
+          choosenBundle !== '' ? choosenBundle : singleEntry.tag?.tagBundle.name
+        }
         style={{ minWidth: '12rem' }}
+        onChange={handleChangeBundle}
       >
-        <MenuItem value={singleEntry.tag?.tagBundle.name}>
-          {singleEntry.tag?.tagBundle.name}
-        </MenuItem>
+        {listOfActiveBundles &&
+          listOfActiveBundles.map((activeBundle, i) => {
+            return (
+              <MenuItem key={i} value={activeBundle.name}>
+                {activeBundle.name}
+              </MenuItem>
+            )
+          })}
       </Select>
 
-      <Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        label="Tag"
-        value={singleEntry.tag?.name}
-        style={{ minWidth: '12rem' }}
-      >
-        <MenuItem value={singleEntry.tag?.name}>
-          {singleEntry.tag?.name}
-        </MenuItem>
-      </Select>
+      <Autocomplete
+        disablePortal
+        defaultValue={singleEntry.tag?.tagBundle.name}
+        options={''}
+        renderInput={(params) => <TextField {...params} />}
+      />
     </>
   )
 }

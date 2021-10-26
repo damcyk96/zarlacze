@@ -21,23 +21,23 @@ const BundlesListWithAdding = () => {
     backgroundColor: '#1796e6',
     color: 'white',
     marginBottom: '20px',
-    minWidth: '10rem',
-    textTransform: "none"
+    minWidth: '12rem',
+    textTransform: 'none',
   }))
 
   const { data, loading, error } = useGetAllBundles()
-  const { setIsDetailsModalOpen, setBundleId} = detailsModalState()
+  const { setIsDetailsModalOpen, setBundleId } = detailsModalState()
 
   if (loading) return <Loader />
   if (error) return <div>Error :(</div>
 
   return (
     <Container>
-      <Box>
-        <h1>Bundles (click for detail)</h1>
+      <h1>Bundles (click for detail)</h1>
+      <Box display="flex" flexWrap="wrap">
         {data.map((bundle) => {
           return (
-            <Box key={bundle._id}>
+            <Box key={bundle._id} marginX="0.5rem">
               <Stack
                 direction="row"
                 divider={<Divider orientation="vertical" flexItem />}
