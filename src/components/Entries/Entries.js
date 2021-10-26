@@ -27,14 +27,14 @@ const Entries = () => {
 
   useEffect(() => {
     setEntries(data)
-  }, [data])
+  }, [data, entries])
   if (loading) return <Loader />
 
   const reorder = (list, startIndex, endIndex) => {
     const result = Array.from(list)
+    console.log(result)
     const [removed] = result.splice(startIndex, 1)
     result.splice(endIndex, 0, removed)
-
     return result
   }
 
@@ -44,7 +44,7 @@ const Entries = () => {
     }
 
     const items = reorder(
-      this.state.items,
+      entries,
       result.source.index,
       result.destination.index
     )
