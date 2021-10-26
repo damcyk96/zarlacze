@@ -10,10 +10,12 @@ import {
 } from '@mui/material'
 import { menuItems } from './menuItems'
 import PageContent from '../PageContent'
+import { useGetProfile } from '../../graphql/queries/useGetProfile'
 
 const drawerWidth = 240
 
 function Dashboard() {
+  console.log(useGetProfile())
   return (
     <Box sx={{ display: 'flex' }}>
       <CssBaseline />
