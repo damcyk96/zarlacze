@@ -13,11 +13,8 @@ export default function SingleEntry({ singleEntry }) {
   dateObjEnd.setHours(endValues[0])
   dateObjEnd.setMinutes(endValues[1])
 
-  const [startValue, setStartValue] = useState(dateObj)
+  const [startValue, setStartValue] = useState(dateObj || undefined)
   const [endValue, setEndValue] = useState(dateObjEnd || undefined)
-  // console.log(singleEntry)
-  // console.log(singleEntry.createdAt, new Date(singleEntry.createdAt))
-  // console.log('start', startValue)
 
   return (
     <>
@@ -27,7 +24,6 @@ export default function SingleEntry({ singleEntry }) {
         value={startValue}
         ampm={false}
         onChange={(newValue) => {
-          console.log(newValue)
           setStartValue(newValue)
         }}
         renderInput={(params) => <TextField {...params} />}

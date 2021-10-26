@@ -10,7 +10,6 @@ function App() {
 
   useEffect(() => {
     if (!localStorage.getItem('user-name')) {
-      console.log('here')
       history.push('/login')
     }
     // eslint-disable-next-line react-hooks/exhaustive-deps

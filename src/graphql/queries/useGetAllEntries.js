@@ -7,6 +7,7 @@ export const GET_ALL_ENTRIES = gql`
       createdAt
       startTime
       endTime
+      date
       order
       tag {
         name
