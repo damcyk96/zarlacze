@@ -8,7 +8,7 @@ import {
   List,
   Typography,
 } from '@mui/material'
-import MenuItems from './MenuItems'
+import MenuItems from './menuItems'
 import PageContent from '../PageContent'
 import { useGetProfile } from '../../graphql/queries/useGetProfile'
 
