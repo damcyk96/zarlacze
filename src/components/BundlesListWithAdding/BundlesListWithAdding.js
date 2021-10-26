@@ -5,19 +5,16 @@ import Stack from '@mui/material/Stack'
 import { styled } from '@mui/material/styles'
 import Loader from '../Loader'
 import { Box } from '@mui/system'
-import useGetActiveBundles, {
-  GET_ACTIVE_BUNDLES,
-} from '../../graphql/queries/useGetActiveBundles'
 import { Button, Container } from '@mui/material'
-import { UNASSIGN_BUNDLE } from '../../graphql/mutations/unAssignBundleByid'
 import AddCircleIcon from '@mui/icons-material/AddCircle'
-import { useMutation } from '@apollo/client'
-import { modalState } from '../../context/modalOpen'
+import useGetAllBundles from '../../graphql/queries/useGetAllBundles'
+import { addModalState } from '../../context/addModalOpen'
+import { detailsModalState } from '../../context/detailsModalOpen'
 
 const BundlesListWithAdding = () => {
-  const {isOpen, setIsOpen } = modalState()
+  const { setIsAddModalOpen } = addModalState()
 
-  const Item = styled(Paper)(({ theme }) => ({
+  const Item = styled(Button)(({ theme }) => ({
     ...theme.typography.body2,
     padding: theme.spacing(2),
     textAlign: 'center',
@@ -25,9 +22,11 @@ const BundlesListWithAdding = () => {
     color: 'white',
     marginBottom: '20px',
     minWidth: '10rem',
+    textTransform: "none"
   }))
 
-  const { data, loading, error } = useGetActiveBundles()
+  const { data, loading, error } = useGetAllBundles()
+  const { setIsDetailsModalOpen, setBundleId} = detailsModalState()
 
   if (loading) return <Loader />
   if (error) return <div>Error :(</div>
@@ -44,17 +43,25 @@ const BundlesListWithAdding = () => {
                 divider={<Divider orientation="vertical" flexItem />}
                 spacing={2}
               >
-                <Item>{bundle.name}</Item>
+                <Item
+                  onClick={() => {
+                    setIsDetailsModalOpen(true)
+                    setBundleId(bundle._id)
+                  }}
+                >
+                  {bundle.name}
+                </Item>
               </Stack>
             </Box>
           )
         })}
       </Box>
       <Box display="flex" justifyContent="end">
-        <Button onClick={()=>{
-         setIsOpen(true);
-         console.log(isOpen)
-        }}>
+        <Button
+          onClick={() => {
+            setIsAddModalOpen(true)
+          }}
+        >
           <AddCircleIcon fontSize="large" />
         </Button>
       </Box>

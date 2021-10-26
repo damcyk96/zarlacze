@@ -1,3 +1,4 @@
+
 import { gql, useQuery } from '@apollo/client'
 
 export const GET_PROFILE = gql`
@@ -15,3 +16,4 @@ export const useGetProfile = () => {
 }
 
 export default useGetProfile
+

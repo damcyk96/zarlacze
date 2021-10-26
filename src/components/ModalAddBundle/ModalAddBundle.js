@@ -2,9 +2,12 @@ import React, { useState } from 'react'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import Modal from '@mui/material/Modal'
-import { modalState } from '../../context/modalOpen'
+import { addModalState, modalState } from '../../context/addModalOpen'
 import { TextareaAutosize, TextField } from '@mui/material'
 import CancelIcon from '@mui/icons-material/Cancel'
+import { useMutation } from '@apollo/client'
+import { CREATE_BUNDLE } from '../../graphql/mutations/createNewBundle'
+import { GET_ALL_BUNDLES } from './../../graphql/queries/useGetAllBundles'
 
 const style = {
   position: 'absolute',
@@ -19,19 +22,39 @@ const style = {
 }
 
 const ModalAddBundle = () => {
-  const { handleClose, isOpen } = modalState()
+  const [addBundle] = useMutation(CREATE_BUNDLE, {
+    refetchQueries: [GET_ALL_BUNDLES, 'GetAllBundles'],
+  })
+
+  const handleAddBundle = () => {
+    addBundle({
+      variables: {
+        record: {
+          name: bundleName,
+          description: bundleDescription,
+        },
+      },
+    })
+  }
+  const { isAddModalOpen, setIsAddModalOpen } = addModalState()
   const [bundleName, setBundleName] = useState('')
   const [bundleDescription, setBundleDescription] = useState('')
   return (
     <div>
       <Modal
-        open={isOpen}
-        onClose={handleClose}
+        open={isAddModalOpen}
+        onClose={() => {
+          setIsAddModalOpen(false)
+        }}
         aria-labelledby="modal-modal-title"
         aria-describedby="modal-modal-description"
       >
         <Box sx={style}>
-          <Button onClick={handleClose}>
+          <Button
+            onClick={() => {
+              setIsAddModalOpen(false)
+            }}
+          >
             <CancelIcon fontSize="large" color="error" />
           </Button>
           <Box display="flex" flexDirection="column">
@@ -50,7 +73,14 @@ const ModalAddBundle = () => {
               placeholder="Description bundle"
               onChange={(e) => setBundleDescription(e.target.value)}
             />
-            <Button variant="contained" style={{ marginTop: '2rem' }}>
+            <Button
+              variant="contained"
+              style={{ marginTop: '2rem' }}
+              onClick={() => {
+                handleAddBundle()
+                setIsAddModalOpen(false)
+              }}
+            >
               Add bundle
             </Button>
           </Box>
