@@ -29,25 +29,25 @@ const Entries = () => {
     refetchQueries: [GET_ALL_ENTRIES, 'GetAllEntries'],
   })
 
-  useMemo(() => {
-    let str = ''
-    if (entries) {
-      entries.forEach((element) => {
-        if (
-          !element.startTime ||
-          !element.endTime ||
-          !element.tag.tagBundle.name ||
-          !element.tag.name
-        ) {
-          alert('Something is error')
-        }
-        const dateObj = element.date.split('T')
-        return (str += `${dateObj[0]} ${element.startTime} ${element.endTime} ${element.tag.tagBundle.name}-${element.tag.name}\n`)
-      })
-    }
-    setvalueToCopy(str)
-    console.log(str)
-  }, [entries])
+  // useMemo(() => {
+  //   let str = ''
+  //   if (entries) {
+  //     entries.forEach((element) => {
+  //       if (
+  //         !element.startTime ||
+  //         !element.endTime ||
+  //         !element.tag.tagBundle.name ||
+  //         !element.tag.name
+  //       ) {
+  //         alert('Something is error')
+  //       }
+  //       const dateObj = element.date.split('T')
+  //       return (str += `${dateObj[0]} ${element.startTime} ${element.endTime} ${element.tag.tagBundle.name}-${element.tag.name}\n`)
+  //     })
+  //   }
+  //   setvalueToCopy(str)
+  //   console.log(str)
+  // }, [entries])
 
   useEffect(() => {
     setEntries(data)
