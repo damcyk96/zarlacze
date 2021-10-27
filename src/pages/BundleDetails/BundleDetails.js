@@ -6,7 +6,7 @@ import { DetailsModalStateProvider } from '../../context/detailsModalOpen'
 import ModalAddBundle from '../../components/ModalAddBundle/ModalAddBundle'
 import BundleDetails from '../../components/BundleDetails/BundleDetails'
 
-const Bundles = () => {
+const BundlesDetailsPage = () => {
   return (
     <Container>
       <AddModalStateProvider>
@@ -18,4 +18,4 @@ const Bundles = () => {
   )
 }
 
-export default Bundles
+export default BundlesDetailsPage

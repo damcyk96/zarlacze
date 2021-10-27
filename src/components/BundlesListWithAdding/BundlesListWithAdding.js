@@ -10,6 +10,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle'
 import useGetAllBundles from '../../graphql/queries/useGetAllBundles'
 import { addModalState } from '../../context/addModalOpen'
 import { detailsModalState } from '../../context/detailsModalOpen'
+import { Link } from 'react-router-dom'
 
 const BundlesListWithAdding = () => {
   const { setIsAddModalOpen } = addModalState()
@@ -21,12 +22,12 @@ const BundlesListWithAdding = () => {
     backgroundColor: '#1796e6',
     color: 'white',
     marginBottom: '20px',
-    minWidth: '10rem',
-    textTransform: "none"
+    minWidth: '14rem',
+    textTransform: 'none',
   }))
 
   const { data, loading, error } = useGetAllBundles()
-  const { setIsDetailsModalOpen, setBundleId} = detailsModalState()
+  const { setIsDetailsModalOpen, setBundleId } = detailsModalState()
 
   if (loading) return <Loader />
   if (error) return <div>Error :(</div>
@@ -35,23 +36,26 @@ const BundlesListWithAdding = () => {
     <Container>
       <Box>
         <h1>Bundles (click for detail)</h1>
+        <Box display="flex" flexDirection="row"  flexWrap="wrap">
         {data.map((bundle) => {
           return (
-            <Box key={bundle._id}>
-              <Stack
-                direction="row"
-                divider={<Divider orientation="vertical" flexItem />}
-                spacing={2}
-              >
-                <Item
-                  onClick={() => {
-                    setIsDetailsModalOpen(true)
-                    setBundleId(bundle._id)
-                  }}
+            <Box key={bundle._id} marginX="2rem" >
+              <Link to={`/bundles/${bundle._id}`}>
+                <Stack
+                  direction="row"
+                  divider={<Divider orientation="vertical" flexItem />}
+                  spacing={2}
                 >
-                  {bundle.name}
-                </Item>
-              </Stack>
+                  <Item
+                    onClick={() => {
+                      setIsDetailsModalOpen(true)
+                      setBundleId(bundle._id)
+                    }}
+                  >
+                    {bundle.name}
+                  </Item>
+                </Stack>
+              </Link>
             </Box>
           )
         })}
@@ -64,6 +68,7 @@ const BundlesListWithAdding = () => {
         >
           <AddCircleIcon fontSize="large" />
         </Button>
+      </Box>
       </Box>
     </Container>
   )
