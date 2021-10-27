@@ -10,6 +10,10 @@ import useGetEntriesByDate from '../../graphql/queries/useGetEntriesByDate'
 import { GET_ALL_ENTRIES } from '../../graphql/queries/useGetAllEntries'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
+import DeleteIcon from '@mui/icons-material/Delete'
+import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
+import ModalAddEntry from '../ModalAddEntry/ModalAddEntry'
+import { addModalState } from '../../context/addModalOpen'
 
 const DELETE_ENTRY = gql`
   mutation DeleteEntry($_id: MongoID!) {
@@ -22,7 +26,8 @@ const DELETE_ENTRY = gql`
 const Entries = () => {
   const [valueToCopy, setvalueToCopy] = useState('')
   const [copied, setCopied] = useState(false)
-
+  const [order, setOrder] = useState()
+  const { isAddEntryModalOpen, setIsAddEntryModalOpen } = addModalState()
   const { data, loading } = useGetEntriesByDate()
   const [entries, setEntries] = useState()
   const [deleteEntry] = useMutation(DELETE_ENTRY, {
@@ -39,7 +44,7 @@ const Entries = () => {
           !element.tag.tagBundle.name ||
           !element.tag.name
         ) {
-          alert('Something is error')
+          console.log('Something is error')
         }
         return (str += `${element.startTime} ${element.endTime} ${element.tag.tagBundle.name}-${element.tag.name}\n`)
       })
@@ -58,10 +63,34 @@ const Entries = () => {
     <LocalizationProvider dateAdapter={DateAdapter}>
       <Container>
         <h1>My entries</h1>
-        {data?.map((singleEntry) => (
+        {!entries ? null : (
+          <Box display="flex" justifyContent="flex-end">
+            <Button
+              variant="outlined"
+              color="success"
+              onClick={() => {
+                setIsAddEntryModalOpen(true)
+                setOrder()
+              }}
+            >
+              <AddCircleOutlineIcon fontSize="large" />
+            </Button>
+          </Box>
+        )}
+        {entries?.map((singleEntry) => (
           <Box display="flex" justifyContent="center" key={singleEntry._id}>
             <Stack direction="row" spacing={2}>
               <SingleEntry singleEntry={singleEntry} />
+              <Button
+                variant="outlined"
+                color="success"
+                onClick={() => {
+                  setIsAddEntryModalOpen(true)
+                  setOrder(singleEntry.order + 1)
+                }}
+              >
+                <AddCircleOutlineIcon fontSize="large" />
+              </Button>
               <Button
                 variant="outlined"
                 color="error"
@@ -73,7 +102,7 @@ const Entries = () => {
                   })
                 }}
               >
-                Delete
+                <DeleteIcon fontSize="large" />
               </Button>
             </Stack>
           </Box>
@@ -86,6 +115,7 @@ const Entries = () => {
           </CopyToClipboard>
         </Box>
       </Container>
+      <ModalAddEntry />
     </LocalizationProvider>
   )
 }
