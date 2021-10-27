@@ -21,7 +21,6 @@ const BundleDetails = () => {
   const [description, setDescription] = useState('')
   const userData = useQuery(GET_PROFILE)
 
-  const [bundleDescription, setBundleDescription] = useState('')
   const bundleResponse = useQuery(GET_BUNDLE_BY_ID, {
     variables: {
       _id: bundleId,
@@ -92,26 +91,32 @@ const BundleDetails = () => {
               />
             </Box>
           </Box>
-          <Box>
-            <Box display="flex" flexDirection="column">
-              {tagsResponse.data.tagPagination.items?.map((tag) => {
-                return (
-                  <p style={{ border: '2px solid blue', padding: '0.25rem' }}>
-                    {tag.name}
-                  </p>
-                )
-              })}
-              <Stack spacing={2}>
-                <Pagination
-                  variant="outlined"
-                  shape="rounded"
-                  count={Math.ceil(tagsResponse.data.tagPagination.count / 10)}
-                  page={page}
-                  onChange={handleChange}
-                />
-              </Stack>
+          {tagsResponse?.data.tagPagination.count ? (
+            <Box>
+              <Box display="flex" flexDirection="column">
+                {tagsResponse.data.tagPagination.items?.map((tag) => {
+                  return (
+                    <p style={{ border: '2px solid blue', padding: '0.25rem' }}>
+                      {tag.name}
+                    </p>
+                  )
+                })}
+                <Stack spacing={2}>
+                  <Pagination
+                    variant="outlined"
+                    shape="rounded"
+                    count={Math.ceil(
+                      tagsResponse.data.tagPagination.count / 10
+                    )}
+                    page={page}
+                    onChange={handleChange}
+                  />
+                </Stack>
+              </Box>
             </Box>
-          </Box>
+          ) : (
+            <h1>brak tagów</h1>
+          )}
         </Box>
       </Container>
     </div>
