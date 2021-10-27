@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useMemo } from 'react'
 import { Container, Button, Stack } from '@mui/material'
 import DateAdapter from '@mui/lab/AdapterDateFns'
 import { LocalizationProvider } from '@mui/lab'
@@ -9,6 +9,7 @@ import { useMutation, gql } from '@apollo/client'
 import useGetEntriesByDate from '../../graphql/queries/useGetEntriesByDate'
 import { GET_ALL_ENTRIES } from '../../graphql/queries/useGetAllEntries'
 import { DragDropContext, Droppable, Draggable } from 'react-beautiful-dnd'
+import { CopyToClipboard } from 'react-copy-to-clipboard'
 
 const DELETE_ENTRY = gql`
   mutation DeleteEntry($_id: MongoID!) {
@@ -24,6 +25,20 @@ const Entries = () => {
   const [deleteEntry] = useMutation(DELETE_ENTRY, {
     refetchQueries: [GET_ALL_ENTRIES, 'GetAllEntries'],
   })
+  const [copied, setCopied] = useState(false)
+  const [valueToCopy, setvalueToCopy] = useState('Tekst')
+
+  useMemo(() => {
+    let str = ''
+    if (entries) {
+      entries.forEach(
+        (element) =>
+          (str += `${element.startTime} ${element.endTime} ${element.tag.tagBundle.name}-${element.tag.name}\n`)
+      )
+    }
+    setvalueToCopy(str)
+    console.log(str)
+  }, [entries])
 
   useEffect(() => {
     setEntries(data)
@@ -109,6 +124,9 @@ const Entries = () => {
               </div>
             )}
           </Droppable>
+          <CopyToClipboard text={valueToCopy} onCopy={() => setCopied(true)}>
+            <button>Copy to clipboard with button</button>
+          </CopyToClipboard>
         </Container>
       </DragDropContext>
     </LocalizationProvider>

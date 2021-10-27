@@ -11,7 +11,7 @@ const PageContent = () => {
       <Route path="/" exact component={EntriesWithDatePicker} />
       <Route path="/bundles" component={Bundles} />
       <Route path="/settings" component={BundlesSettings} />
-      <Route path="/details" component={BundleDetails} />
+      <Route path="/details/:id" component={BundleDetails}/>
     </Switch>
   )
 }
