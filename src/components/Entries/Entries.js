@@ -29,25 +29,25 @@ const Entries = () => {
     refetchQueries: [GET_ALL_ENTRIES, 'GetAllEntries'],
   })
 
-  // useMemo(() => {
-  //   let str = ''
-  //   if (entries) {
-  //     entries.forEach((element) => {
-  //       if (
-  //         !element.startTime ||
-  //         !element.endTime ||
-  //         !element.tag.tagBundle.name ||
-  //         !element.tag.name
-  //       ) {
-  //         alert('Something is error')
-  //       }
-  //       const dateObj = element.date.split('T')
-  //       return (str += `${dateObj[0]} ${element.startTime} ${element.endTime} ${element.tag.tagBundle.name}-${element.tag.name}\n`)
-  //     })
-  //   }
-  //   setvalueToCopy(str)
-  //   console.log(str)
-  // }, [entries])
+  const copyEntries = () => {
+    let str = ''
+    if (entries && entries.length > 0) {
+      entries.forEach((element) => {
+        if (
+          !element.startTime ||
+          !element.endTime ||
+          !element.tag.tagBundle.name ||
+          !element.tag.name
+        ) {
+          alert('Something is wrong')
+        }
+        const dateObj = element.date.split('T')
+        return (str += `${dateObj[0]} ${element.startTime} ${element.endTime} ${element.tag.tagBundle.name}-${element.tag.name}\n`)
+      })
+    }
+    setvalueToCopy(str)
+    console.log(str)
+  }
 
   useEffect(() => {
     setEntries(data)
@@ -86,7 +86,7 @@ const Entries = () => {
         ))}
         <Box display="flex" marginTop="3rem" justifyContent="flex-end ">
           <CopyToClipboard text={valueToCopy} onCopy={() => setCopied(true)}>
-            <Button>
+            <Button onClick={copyEntries}>
               <ContentCopyIcon fontSize="large" />
             </Button>
           </CopyToClipboard>
