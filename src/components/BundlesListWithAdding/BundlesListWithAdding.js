@@ -22,7 +22,7 @@ const BundlesListWithAdding = () => {
     backgroundColor: '#1796e6',
     color: 'white',
     marginBottom: '20px',
-    minWidth: '10rem',
+    minWidth: '14rem',
     textTransform: 'none',
   }))
 
@@ -36,9 +36,10 @@ const BundlesListWithAdding = () => {
     <Container>
       <Box>
         <h1>Bundles (click for detail)</h1>
+        <Box display="flex" flexDirection="row"  flexWrap="wrap">
         {data.map((bundle) => {
           return (
-            <Box key={bundle._id}>
+            <Box key={bundle._id} marginX="2rem" >
               <Link to={`/bundles/${bundle._id}`}>
                 <Stack
                   direction="row"
@@ -67,6 +68,7 @@ const BundlesListWithAdding = () => {
         >
           <AddCircleIcon fontSize="large" />
         </Button>
+      </Box>
       </Box>
     </Container>
   )

@@ -98,14 +98,6 @@ const BundleDetails = () => {
             </Box>
           </Box>
           <Box>
-            <Button
-              onClick={() => {
-                setPage(1)
-                /* TO DO tutaj routing do /bundles */
-              }}
-            >
-              <CancelIcon fontSize="large" color="error" />
-            </Button>
             <Box display="flex" flexDirection="column">
               {tagsResponse.data.tagPagination.items?.map((tag) => {
                 return (
