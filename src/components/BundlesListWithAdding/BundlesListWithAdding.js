@@ -10,6 +10,7 @@ import AddCircleIcon from '@mui/icons-material/AddCircle'
 import useGetAllBundles from '../../graphql/queries/useGetAllBundles'
 import { addModalState } from '../../context/addModalOpen'
 import { detailsModalState } from '../../context/detailsModalOpen'
+import { Link } from 'react-router-dom'
 
 const BundlesListWithAdding = () => {
   const { setIsAddModalOpen } = addModalState()
@@ -22,11 +23,11 @@ const BundlesListWithAdding = () => {
     color: 'white',
     marginBottom: '20px',
     minWidth: '10rem',
-    textTransform: "none"
+    textTransform: 'none',
   }))
 
   const { data, loading, error } = useGetAllBundles()
-  const { setIsDetailsModalOpen, setBundleId} = detailsModalState()
+  const { setIsDetailsModalOpen, setBundleId } = detailsModalState()
 
   if (loading) return <Loader />
   if (error) return <div>Error :(</div>
@@ -38,20 +39,22 @@ const BundlesListWithAdding = () => {
         {data.map((bundle) => {
           return (
             <Box key={bundle._id}>
-              <Stack
-                direction="row"
-                divider={<Divider orientation="vertical" flexItem />}
-                spacing={2}
-              >
-                <Item
-                  onClick={() => {
-                    setIsDetailsModalOpen(true)
-                    setBundleId(bundle._id)
-                  }}
+              <Link to={`/bundles/${bundle._id}`}>
+                <Stack
+                  direction="row"
+                  divider={<Divider orientation="vertical" flexItem />}
+                  spacing={2}
                 >
-                  {bundle.name}
-                </Item>
-              </Stack>
+                  <Item
+                    onClick={() => {
+                      setIsDetailsModalOpen(true)
+                      setBundleId(bundle._id)
+                    }}
+                  >
+                    {bundle.name}
+                  </Item>
+                </Stack>
+              </Link>
             </Box>
           )
         })}

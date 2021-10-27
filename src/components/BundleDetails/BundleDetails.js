@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react'
+import { useParams } from 'react-router-dom'
 import Box from '@mui/material/Box'
 import Button from '@mui/material/Button'
 import { Container, TextareaAutosize } from '@mui/material'
@@ -13,6 +14,7 @@ import { GET_PROFILE } from '../../graphql/queries/useGetProfile'
 import { EDIT_DESCRIPTION_BUNDLE } from '../../graphql/mutations/editDescriptionBundle'
 
 const BundleDetails = () => {
+  const { bundleId } = useParams() // ID KLIKNIETEGO BUNDLA HERE
   const [page, setPage] = useState(1)
   const [profileId, setProfileId] = useState('')
   const [creatorId, setCreatorId] = useState('')
@@ -22,15 +24,15 @@ const BundleDetails = () => {
   const [bundleDescription, setBundleDescription] = useState('')
   const bundleResponse = useQuery(GET_BUNDLE_BY_ID, {
     variables: {
-      // _id: bundleId,
-      _id: '6176e9a21322518c90158ad1',
+      _id: bundleId,
+      // _id: '6176e9a21322518c90158ad1',
     },
   })
 
   const tagsResponse = useQuery(GET_TAGS_BY_ID, {
     variables: {
       // _id: bundleId,
-      filter: '6176e9a21322518c90158ad1',
+      filter: bundleId,
       page: page,
     },
   })
@@ -49,7 +51,7 @@ const BundleDetails = () => {
     setPage(value)
     tagsResponse.fetchMore({
       variables: {
-        filter: '6176e9a21322518c90158ad1',
+        filter: bundleId,
         page: page,
       },
     })
@@ -89,7 +91,7 @@ const BundleDetails = () => {
                 disabled={creatorId !== profileId}
                 value={description}
                 onBlur={() => {
-                  handleEditDescription('6176e9a21322518c90158ad1', description)
+                  handleEditDescription(bundleId, description)
                   /*nie chce sie setnac description */
                 }}
               />
