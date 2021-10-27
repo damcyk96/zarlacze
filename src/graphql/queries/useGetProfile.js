@@ -5,6 +5,7 @@ export const GET_PROFILE = gql`
   query GetProfile {
     getProfile {
       oauthId
+      _id
     }
   }
 `

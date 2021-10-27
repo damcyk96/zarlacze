@@ -25,13 +25,11 @@ const BundleDetails = () => {
   const bundleResponse = useQuery(GET_BUNDLE_BY_ID, {
     variables: {
       _id: bundleId,
-      // _id: '6176e9a21322518c90158ad1',
     },
   })
 
   const tagsResponse = useQuery(GET_TAGS_BY_ID, {
     variables: {
-      // _id: bundleId,
       filter: bundleId,
       page: page,
     },
@@ -68,13 +66,10 @@ const BundleDetails = () => {
     }
   }, [userData.data, bundleResponse.data])
 
-  console.log(description)
-
   if (bundleResponse.loading || tagsResponse.loading) return <Loader />
   const handleChangeTextArea = (event) => {
     setDescription(event.target.value)
   }
-
   return (
     <div>
       <Container>
