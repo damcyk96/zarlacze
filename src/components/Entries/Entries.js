@@ -41,7 +41,8 @@ const Entries = () => {
         ) {
           alert('Something is error')
         }
-        return (str += `${element.startTime} ${element.endTime} ${element.tag.tagBundle.name}-${element.tag.name}\n`)
+        const dateObj = element.date.split('T')
+        return (str += `${dateObj[0]} ${element.startTime} ${element.endTime} ${element.tag.tagBundle.name}-${element.tag.name}\n`)
       })
     }
     setvalueToCopy(str)
@@ -59,7 +60,12 @@ const Entries = () => {
       <Container>
         <h1>My entries</h1>
         {data?.map((singleEntry) => (
-          <Box display="flex" justifyContent="center" key={singleEntry._id} marginTop="1rem">
+          <Box
+            display="flex"
+            justifyContent="center"
+            key={singleEntry._id}
+            marginTop="1rem"
+          >
             <Stack direction="row" spacing={2}>
               <SingleEntry singleEntry={singleEntry} />
               <Button
