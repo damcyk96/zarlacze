@@ -59,7 +59,7 @@ const Entries = () => {
       <Container>
         <h1>My entries</h1>
         {data?.map((singleEntry) => (
-          <Box display="flex" justifyContent="center" key={singleEntry._id}>
+          <Box display="flex" justifyContent="center" key={singleEntry._id} marginTop="1rem">
             <Stack direction="row" spacing={2}>
               <SingleEntry singleEntry={singleEntry} />
               <Button
