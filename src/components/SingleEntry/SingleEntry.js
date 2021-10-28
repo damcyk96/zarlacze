@@ -1,6 +1,7 @@
 import React, { useState } from 'react'
 import { TextField, MenuItem, Select } from '@mui/material'
 import { TimePicker } from '@mui/lab'
+import { activeBundlesState } from '../../context/activeBundles'
 
 export default function SingleEntry({ singleEntry }) {
   let dateObj = undefined
@@ -22,7 +23,9 @@ export default function SingleEntry({ singleEntry }) {
 
   const [startValue, setStartValue] = useState(dateObj)
   const [endValue, setEndValue] = useState(dateObjEnd)
+  const {activeBundles} = activeBundlesState();
   return (
+    //Przekazać i z mapowania wyżej
     <>
       <TimePicker
         flex
@@ -33,7 +36,6 @@ export default function SingleEntry({ singleEntry }) {
           setStartValue(newValue)
         }}
         renderInput={(params) => <TextField {...params} />}
-        toolbarPlaceholder
       />
       <TimePicker
         label="End time"
@@ -53,9 +55,9 @@ export default function SingleEntry({ singleEntry }) {
         value={singleEntry.tag?.tagBundle.name}
         style={{ minWidth: '12rem' }}
       >
-        <MenuItem value={singleEntry.tag?.tagBundle.name}>
-          {singleEntry.tag?.tagBundle.name}
-        </MenuItem>
+        {activeBundles?.map((bundle) => {
+          return <MenuItem key={bundle._id} value={bundle.name}>{bundle.name}</MenuItem>
+        })}
       </Select>
 
       <Select

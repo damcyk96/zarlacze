@@ -18,10 +18,10 @@ function App() {
 
   return (
     <AddModalStateProvider>
-    <Switch>
-      <Route path="/login" component={Login} />
-      <Route path="/" component={Dashboard} />
-    </Switch>
+      <Switch>
+        <Route path="/login" component={Login} />
+        <Route path="/" component={Dashboard} />
+      </Switch>
     </AddModalStateProvider>
   )
 }

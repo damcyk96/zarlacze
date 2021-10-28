@@ -5,7 +5,7 @@ import { LocalizationProvider } from '@mui/lab'
 import SingleEntry from '../SingleEntry'
 import Loader from '../Loader'
 import { Box } from '@mui/system'
-import { useMutation, gql } from '@apollo/client'
+import { useMutation, gql, useQuery } from '@apollo/client'
 import useGetEntriesByDate, {
   GET_ENTRIES_BY_DATE,
 } from '../../graphql/queries/useGetEntriesByDate'
@@ -80,26 +80,23 @@ const Entries = () => {
     setEntries(data)
     setOrder(0)
   }, [data, entries])
-
   if (loading) return <Loader />
-
+console.log(entries)
   return (
     <LocalizationProvider dateAdapter={DateAdapter}>
       <Container>
-        <h1>My entries</h1>
-        {!entries ? null : (
-          <Box display="flex" justifyContent="flex-end">
-            <Button
-              variant="outlined"
-              color="success"
-              onClick={() => {
-                handleCreateEntry(order)
-              }}
-            >
-              <AddCircleOutlineIcon fontSize="large" />
-            </Button>
-          </Box>
-        )}
+        {entries?.length === 0 && <h1>Add first entry</h1>}
+        <Box display="flex" justifyContent="flex-end">
+          <Button
+            variant="outlined"
+            color="success"
+            onClick={() => {
+              handleCreateEntry(order)
+            }}
+          >
+            <AddCircleOutlineIcon fontSize="large" />
+          </Button>
+        </Box>
         {entries?.map((singleEntry) => (
           <Box display="flex" justifyContent="center" key={singleEntry._id}>
             <Stack direction="row" spacing={2}>

@@ -27,7 +27,7 @@ const BundlesListWithAdding = () => {
   }))
 
   const { data, loading, error } = useGetAllBundles()
-  const { setIsDetailsModalOpen, setBundleId } = detailsModalState()
+  const { setBundleId } = detailsModalState()
 
   if (loading) return <Loader />
   if (error) return <div>Error :(</div>
@@ -48,7 +48,6 @@ const BundlesListWithAdding = () => {
                 >
                   <Item
                     onClick={() => {
-                      setIsDetailsModalOpen(true)
                       setBundleId(bundle._id)
                     }}
                   >
