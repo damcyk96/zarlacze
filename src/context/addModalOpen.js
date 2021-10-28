@@ -3,10 +3,13 @@ import { createContainer } from 'unstated-next'
 
 const useAddModalStateContainer = createContainer(() => {
   const [isAddModalOpen, setIsAddModalOpen] = useState(false)
+  const [isAddEntryModalOpen, setIsAddEntryModalOpen] = useState()
 
   return {
     isAddModalOpen,
-    setIsAddModalOpen
+    setIsAddModalOpen,
+    isAddEntryModalOpen,
+    setIsAddEntryModalOpen
    
   }
 })

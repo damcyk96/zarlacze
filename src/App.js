@@ -4,6 +4,7 @@ import { useEffect } from 'react'
 
 import Dashboard from './components/Dashboard'
 import Login from './components/Login'
+import { AddModalStateProvider } from './context/addModalOpen'
 
 function App() {
   const history = useHistory()
@@ -16,10 +17,12 @@ function App() {
   }, [])
 
   return (
+    <AddModalStateProvider>
     <Switch>
       <Route path="/login" component={Login} />
       <Route path="/" component={Dashboard} />
     </Switch>
+    </AddModalStateProvider>
   )
 }
 
