@@ -106,11 +106,8 @@ const Entries = () => {
                 variant="outlined"
                 color="success"
                 onClick={() => {
-                  if (entries.length > 1) {
-                    setOrder(entries[0].order - 1)
-                  } else {
-                    setOrder(0)
-                  }
+                 setOrder(entries[entries.length-1] + 1)
+                 console.log(order)
                   handleCreateEntry(order)
                   setOrder(0)
                 }}

@@ -1,10 +1,11 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { TextField, MenuItem, Select } from '@mui/material'
 import { TimePicker } from '@mui/lab'
 import { activeBundlesState } from '../../context/activeBundles'
 import { UPDATE_ENTRY } from '../../graphql/mutations/updateEntry'
 import { GET_ENTRIES_BY_DATE } from '../../graphql/queries/useGetEntriesByDate'
 import { useMutation } from '@apollo/client'
+import { useField } from 'formik'
 
 export default function SingleEntry({ singleEntry, date }) {
   let dateObj = undefined
@@ -26,6 +27,8 @@ export default function SingleEntry({ singleEntry, date }) {
 
   const [startValue, setStartValue] = useState(dateObj)
   const [endValue, setEndValue] = useState(dateObjEnd)
+  const [tagBundle, setTagBundle] = useState()
+  const [tag, setTag] = useState()
   const { activeBundles } = activeBundlesState()
 
   const [updateEntry] = useMutation(UPDATE_ENTRY, {
@@ -47,6 +50,12 @@ export default function SingleEntry({ singleEntry, date }) {
       },
     })
   }
+
+  useEffect(() => {
+   
+  }, [startValue, endValue])
+
+  console.log(startValue, endValue)
   return (
     //Przekazać i z mapowania wyżej
     <>
