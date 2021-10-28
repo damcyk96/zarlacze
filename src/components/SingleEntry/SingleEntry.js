@@ -8,6 +8,7 @@ import _ from 'lodash'
 import { format } from 'date-fns'
 import cogoToast from 'cogo-toast'
 
+
 export default function SingleEntry({ singleEntry, date }) {
   let dateObj = undefined
   let dateObjEnd = undefined
@@ -52,6 +53,7 @@ export default function SingleEntry({ singleEntry, date }) {
   }
   const selectedBundleTags = _.filter(activeBundles, { name: tagBundle })
 
+
   // const arrayWithTags = []
   // useEffect(() => {
   //   if (tagBundle) {
@@ -64,6 +66,8 @@ export default function SingleEntry({ singleEntry, date }) {
   //     console.log(arrayWithTags)
   //   }
   // }, [tagBundle])
+  const selectedBundleTags = _.filter(activeBundles, { name: tagBundle })
+
   return (
     <>
       <TimePicker
@@ -88,7 +92,7 @@ export default function SingleEntry({ singleEntry, date }) {
       />
 
       <Select
-        // value={singleEntry.tagBundle}
+        value={singleEntry.tagBundle}
         style={{ minWidth: '12rem' }}
         onChange={(event) => setTagBundle(event.target.value)}
         onBlur={() => {
@@ -96,6 +100,7 @@ export default function SingleEntry({ singleEntry, date }) {
             handleUpdateEntry()
           }
         }}
+
       >
         {activeBundles?.map((bundle) => {
           return (
@@ -115,6 +120,7 @@ export default function SingleEntry({ singleEntry, date }) {
             handleUpdateEntry()
           }
         }}
+
       >
         {selectedBundleTags[0]?.tags.map((tag, index) => {
           return (
