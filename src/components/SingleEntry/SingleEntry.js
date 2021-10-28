@@ -55,7 +55,6 @@ export default function SingleEntry({ singleEntry, date }) {
    
   }, [startValue, endValue])
 
-  console.log(startValue, endValue)
   return (
     //Przekazać i z mapowania wyżej
     <>
