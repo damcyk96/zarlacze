@@ -2,7 +2,7 @@ import React from 'react'
 import { Route, Switch } from 'react-router-dom'
 import Bundles from '../../pages/Bundles/Bundles'
 import EntriesWithDatePicker from '../../pages/EntriesWithDatePicker/EntriesWithDatePicker'
-import BundlesSettings from '../../pages/BundlesSettings'
+import BundlesSettings from '../../pages/Settings'
 import BundlesDetailsPage from '../../pages/BundleDetails'
 import { ActiveBundlesStateProvider } from '../../context/activeBundles'
 
