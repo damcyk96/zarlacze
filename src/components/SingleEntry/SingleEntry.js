@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState } from 'react'
 import { TextField, MenuItem, Select } from '@mui/material'
 import { TimePicker } from '@mui/lab'
 import { activeBundlesState } from '../../context/activeBundles'
 import { UPDATE_ENTRY } from '../../graphql/mutations/updateEntry'
-import { GET_ENTRIES_BY_DATE } from '../../graphql/queries/useGetEntriesByDate'
 import { useMutation } from '@apollo/client'
-import { useField } from 'formik'
 import _ from 'lodash'
+import { format } from 'date-fns'
+import cogoToast from 'cogo-toast'
+
 
 export default function SingleEntry({ singleEntry, date }) {
   let dateObj = undefined
@@ -31,31 +32,43 @@ export default function SingleEntry({ singleEntry, date }) {
   const [tagBundle, setTagBundle] = useState('')
   const [tag, setTag] = useState('')
   const { activeBundles } = activeBundlesState()
+  const [arrayTags, setArrayTags] = useState([])
 
-  const [updateEntry] = useMutation(UPDATE_ENTRY, {
-    refetchQueries: [GET_ENTRIES_BY_DATE, 'GetEntriesByDate'],
-  })
+  const [updateEntry] = useMutation(UPDATE_ENTRY)
 
   const handleUpdateEntry = () => {
     updateEntry({
       variables: {
         _id: singleEntry._id,
         record: {
+          startTime: format(startValue, 'HH:MM'),
+          endTime: format(endValue, 'HH:MM'),
           tagBundleName: tagBundle,
           tagName: tag,
-          startTime: startValue,
-          endTime: endValue,
           date: date,
-          order: singleEntry.order,
         },
       },
     })
+    cogoToast.success('Entry was updated')
   }
+  const selectedBundleTags = _.filter(activeBundles, { name: tagBundle })
 
+
+  // const arrayWithTags = []
+  // useEffect(() => {
+  //   if (tagBundle) {
+  //     const selectedBundleTags = _.filter(activeBundles, { name: tagBundle })
+  //     const filteredTags = selectedBundleTags[0].tags
+  //     console.log(selectedBundleTags[0].tags[2].name)
+  //     for (let i = 0; i < selectedBundleTags[0].tags.length; i++) {
+  //       arrayWithTags.push(selectedBundleTags[0].tags[i].name)
+  //     }
+  //     console.log(arrayWithTags)
+  //   }
+  // }, [tagBundle])
   const selectedBundleTags = _.filter(activeBundles, { name: tagBundle })
 
   return (
-    //Przekazać i z mapowania wyżej
     <>
       <TimePicker
         flex
@@ -79,9 +92,15 @@ export default function SingleEntry({ singleEntry, date }) {
       />
 
       <Select
-        value={tagBundle}
+        value={singleEntry.tagBundle}
         style={{ minWidth: '12rem' }}
         onChange={(event) => setTagBundle(event.target.value)}
+        onBlur={() => {
+          if (tag) {
+            handleUpdateEntry()
+          }
+        }}
+
       >
         {activeBundles?.map((bundle) => {
           return (
@@ -91,11 +110,17 @@ export default function SingleEntry({ singleEntry, date }) {
           )
         })}
       </Select>
-
       <Select
         value={tag}
         style={{ minWidth: '12rem' }}
         onChange={(event) => setTag(event.target.value)}
+        disabled={!tagBundle ? true : false}
+        onBlur={() => {
+          if (tagBundle) {
+            handleUpdateEntry()
+          }
+        }}
+
       >
         {selectedBundleTags[0]?.tags.map((tag, index) => {
           return (
@@ -105,6 +130,23 @@ export default function SingleEntry({ singleEntry, date }) {
           )
         })}
       </Select>
+
+      {/* <Autocomplete
+        style={{ minWidth: '16rem' }}
+        options={arrayWithTags}
+        disablePortal
+        disabled={!tagBundle ? true : false}
+        value={tag}
+        onKeyDown={(event) => setTag(event.target.value)}
+        renderInput={(params) => {
+          return <TextField {...params} label="Tags" />
+        }}
+        onBlur={() => {
+          if (tagBundle) {
+            handleUpdateEntry()
+          }
+        }}
+      /> */}
     </>
   )
 }

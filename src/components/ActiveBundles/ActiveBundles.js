@@ -12,6 +12,7 @@ import { Button } from '@mui/material'
 import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import { UNASSIGN_BUNDLE } from '../../graphql/mutations/unAssignBundleByid'
 import { useMutation } from '@apollo/client'
+import cogoToast from 'cogo-toast'
 
 const ActiveBundles = () => {
     const [unassignBundle] = useMutation(UNASSIGN_BUNDLE, {
@@ -24,6 +25,8 @@ const ActiveBundles = () => {
                 bundleId: bundleId,
             },
         })
+        cogoToast.error('Tag bundle was unassigned.')
+
     }
 
     const Item = styled(Paper)(({ theme }) => ({
@@ -42,7 +45,7 @@ const ActiveBundles = () => {
 
     return (
         <div>
-            <h1 style={{ color: '#66c429' }}>My active bundles</h1>
+            <h1 style={{ color: '#66c429' }}>Active bundles</h1>
             {data.map((bundle) => {
                 return (
                     <Box key={bundle._id}>

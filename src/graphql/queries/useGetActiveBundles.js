@@ -1,6 +1,7 @@
 import { gql, useQuery } from '@apollo/client'
 
 export const GET_ACTIVE_BUNDLES = gql`
+
   query GetActiveBundles {
     getProfile {
       tagBundles {
