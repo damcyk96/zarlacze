@@ -14,6 +14,7 @@ import { CopyToClipboard } from 'react-copy-to-clipboard'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import DeleteIcon from '@mui/icons-material/Delete'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
+import HighlightOffIcon from '@mui/icons-material/HighlightOff';
 import { addModalState } from '../../context/addModalOpen'
 import { CREATE_ENTRY } from '../../graphql/mutations/createEntryMutation'
 import { dateState } from '../../context/date'
@@ -98,7 +99,7 @@ const Entries = () => {
           </Button>
         </Box>
         {entries?.map((singleEntry) => (
-          <Box display="flex" justifyContent="center" key={singleEntry._id}>
+          <Box display="flex" justifyContent="center" key={singleEntry._id} style={{marginTop: '1rem'}}>
             <Stack direction="row" spacing={2}>
               <p>{singleEntry.order}</p>
               <SingleEntry singleEntry={singleEntry} date={dateQueryFormat} />
@@ -131,6 +132,9 @@ const Entries = () => {
           </Box>
         ))}
         <Box display="flex" marginTop="3rem" justifyContent="flex-end ">
+          <Button>
+                <HighlightOffIcon color="error" fontSize="large"/>
+            </Button>
           {entries?.length > 0 && (
             <CopyToClipboard text={valueToCopy} onCopy={() => setCopied(true)}>
               <Button>
