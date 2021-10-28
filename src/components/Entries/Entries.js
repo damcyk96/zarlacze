@@ -33,7 +33,7 @@ const Entries = () => {
   const { isAddEntryModalOpen, setIsAddEntryModalOpen } = addModalState()
   const { data, loading } = useGetEntriesByDate()
   const [entries, setEntries] = useState()
-  const {dateQueryFormat} = dateState()
+  const { dateQueryFormat } = dateState()
   const [deleteEntry] = useMutation(DELETE_ENTRY, {
     refetchQueries: [GET_ENTRIES_BY_DATE, 'GetAllEntries'],
   })
@@ -103,12 +103,18 @@ const Entries = () => {
         {entries?.map((singleEntry) => (
           <Box display="flex" justifyContent="center" key={singleEntry._id}>
             <Stack direction="row" spacing={2}>
+              <p>{singleEntry.order}</p>
               <SingleEntry singleEntry={singleEntry} />
               <Button
                 variant="outlined"
                 color="success"
                 onClick={() => {
-                  handleCreateEntry(singleEntry.order + 1)
+                  if (entries.length > 1) {
+                    setOrder(entries[0].order - 1)
+                  } else {
+                    setOrder(0)
+                  }
+                  handleCreateEntry(order)
                   setOrder(0)
                 }}
               >
