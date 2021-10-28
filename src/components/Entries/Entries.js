@@ -26,7 +26,7 @@ const DELETE_ENTRY = gql`
 const Entries = () => {
   const [valueToCopy, setvalueToCopy] = useState('')
   const [copied, setCopied] = useState(false)
-  const [order, setOrder] = useState()
+  const [order, setOrder] = useState(0)
   const { isAddEntryModalOpen, setIsAddEntryModalOpen } = addModalState()
   const { data, loading } = useGetEntriesByDate()
   const [entries, setEntries] = useState()
@@ -108,14 +108,16 @@ const Entries = () => {
           </Box>
         ))}
         <Box display="flex" marginTop="3rem" justifyContent="flex-end ">
-          <CopyToClipboard text={valueToCopy} onCopy={() => setCopied(true)}>
-            <Button>
-              <ContentCopyIcon fontSize="large" />
-            </Button>
-          </CopyToClipboard>
+          {entries?.length > 0 && (
+            <CopyToClipboard text={valueToCopy} onCopy={() => setCopied(true)}>
+              <Button>
+                <ContentCopyIcon fontSize="large" />
+              </Button>
+            </CopyToClipboard>
+          )}
         </Box>
       </Container>
-      <ModalAddEntry />
+      <ModalAddEntry order={order}/>
     </LocalizationProvider>
   )
 }

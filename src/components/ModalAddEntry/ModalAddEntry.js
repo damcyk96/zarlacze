@@ -22,7 +22,7 @@ const style = {
   p: 4,
 }
 
-const ModalAddEntry = ({order}) => {
+const ModalAddEntry = ({ order }) => {
   const [addEntry] = useMutation(CREATE_BUNDLE, {
     refetchQueries: [GET_ALL_ENTRIES, 'GetAllEntries'],
   })
@@ -42,7 +42,6 @@ const ModalAddEntry = ({order}) => {
   const [bundleDescription, setBundleDescription] = useState('')
   return (
     <div>
-        <h1>{order}</h1>
       <Modal
         open={isAddEntryModalOpen}
         onClose={() => {
@@ -62,41 +61,38 @@ const ModalAddEntry = ({order}) => {
           <Box display="flex" flexDirection="column">
             <h1>Add Entry</h1>
             <TimePicker
-        flex
-        label="Start time"
-        ampm={false}
-       
-        renderInput={(params) => <TextField {...params} />}
-      />
-      <TimePicker
-        label="End time"
-        ampm={false}
-        
-        renderInput={(params) => <TextField {...params} />}
-      />
+              flex
+              label="Start time"
+              ampm={false}
+              renderInput={(params) => <TextField {...params} />}
+            />
+            <TimePicker
+              label="End time"
+              ampm={false}
+              renderInput={(params) => <TextField {...params} />}
+            />
 
-      <Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        label="Bundle"
-       
-        style={{ minWidth: '12rem' }}
-      >
-        {/* <MenuItem value={singleEntry.tag?.tagBundle.name}>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="Bundle"
+              style={{ minWidth: '12rem' }}
+            >
+              {/* <MenuItem value={singleEntry.tag?.tagBundle.name}>
           {singleEntry.tag?.tagBundle.name}
         </MenuItem> */}
-      </Select>
+            </Select>
 
-      <Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        label="Tag"
-        style={{ minWidth: '12rem' }}
-      >
-        {/* <MenuItem value={singleEntry.tag?.name}>
+            <Select
+              labelId="demo-simple-select-label"
+              id="demo-simple-select"
+              label="Tag"
+              style={{ minWidth: '12rem' }}
+            >
+              {/* <MenuItem value={singleEntry.tag?.name}>
           {singleEntry.tag?.name}
         </MenuItem> */}
-      </Select>
+            </Select>
             <Button
               variant="contained"
               style={{ marginTop: '2rem' }}

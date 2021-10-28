@@ -92,7 +92,6 @@ const BundleDetails = () => {
                 value={description}
                 onBlur={() => {
                   handleEditDescription(bundleId, description)
-                  /*nie chce sie setnac description */
                 }}
               />
             </Box>
