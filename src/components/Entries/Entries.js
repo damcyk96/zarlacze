@@ -17,6 +17,7 @@ import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import { CREATE_ENTRY } from '../../graphql/mutations/createEntryMutation'
 import { dateState } from '../../context/date'
 import { UPDATE_ENTRY } from '../../graphql/mutations/updateEntry'
+import { format } from 'date-fns'
 
 const DELETE_ENTRY = gql`
   mutation DeleteEntry($_id: MongoID!) {
@@ -33,19 +34,21 @@ const Entries = () => {
   const { data, loading } = useGetEntriesByDate()
   const [entries, setEntries] = useState()
   const { dateQueryFormat } = dateState()
-  const [deleteEntry] = useMutation(DELETE_ENTRY)
+  const [deleteEntry] = useMutation(DELETE_ENTRY, {
+    refetchQueries: [GET_ENTRIES_BY_DATE, 'GetEntriesByDate'],
+  })
   const [createEntry] = useMutation(CREATE_ENTRY, {
     refetchQueries: [GET_ENTRIES_BY_DATE, 'GetEntriesByDate'],
   })
 
-  const handleCreateEntry = (order) => {
+  const handleCreateEntry = (order, startTime) => {
     createEntry({
       variables: {
         record: {
           tagBundleName: '',
           tagName: '',
-          startTime: '00:01',
-          endTime: '00:02',
+          startTime: startTime ? startTime : '00:00',
+          endTime: '00:01',
           date: dateQueryFormat,
           order: order,
         },
@@ -90,7 +93,6 @@ const Entries = () => {
       })
       if (newEntries) {
         newEntries.forEach((entry, i) => {
-          console.log(entry)
           updateEntry({
             variables: {
               _id: entry._id,
@@ -114,7 +116,7 @@ const Entries = () => {
             color="success"
             onClick={() => {
               const obj = {
-                order: entries[0].order - 1,
+                order: -1,
               }
               let newEntries = [...entries]
               newEntries.splice(0, 0, obj)
@@ -165,15 +167,33 @@ const Entries = () => {
           </Box>
         ))}
         <Box display="flex" marginTop="3rem" justifyContent="flex-end ">
-          <Button>
-            <HighlightOffIcon color="error" fontSize="large" />
-          </Button>
           {entries?.length > 0 && (
-            <CopyToClipboard text={valueToCopy} onCopy={() => setCopied(true)}>
-              <Button>
-                <ContentCopyIcon fontSize="large" onClick={copyEntries} />
+            <>
+              <Button
+                onClick={() => {
+                  const newStartTime = format(new Date(), 'HH:MM')
+                  updateEntry({
+                    variables: {
+                      _id: entries[entries.length - 1]._id,
+                      record: {
+                        endTime: newStartTime,
+                      },
+                    },
+                  })
+                  handleCreateEntry(entries[entries.length], newStartTime)
+                }}
+              >
+                <HighlightOffIcon color="error" fontSize="large" />
               </Button>
-            </CopyToClipboard>
+              <CopyToClipboard
+                text={valueToCopy}
+                onCopy={() => setCopied(true)}
+              >
+                <Button>
+                  <ContentCopyIcon fontSize="large" onClick={copyEntries} />
+                </Button>
+              </CopyToClipboard>
+            </>
           )}
         </Box>
       </Container>
