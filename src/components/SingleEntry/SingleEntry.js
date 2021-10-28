@@ -6,6 +6,7 @@ import { UPDATE_ENTRY } from '../../graphql/mutations/updateEntry'
 import { GET_ENTRIES_BY_DATE } from '../../graphql/queries/useGetEntriesByDate'
 import { useMutation } from '@apollo/client'
 import { useField } from 'formik'
+import _ from 'lodash'
 
 export default function SingleEntry({ singleEntry, date }) {
   let dateObj = undefined
@@ -27,8 +28,8 @@ export default function SingleEntry({ singleEntry, date }) {
 
   const [startValue, setStartValue] = useState(dateObj)
   const [endValue, setEndValue] = useState(dateObjEnd)
-  const [tagBundle, setTagBundle] = useState()
-  const [tag, setTag] = useState()
+  const [tagBundle, setTagBundle] = useState('')
+  const [tag, setTag] = useState('')
   const { activeBundles } = activeBundlesState()
 
   const [updateEntry] = useMutation(UPDATE_ENTRY, {
@@ -40,10 +41,10 @@ export default function SingleEntry({ singleEntry, date }) {
       variables: {
         _id: singleEntry._id,
         record: {
-          tagBundleName: '',
-          tagName: '',
-          startTime: '00:01',
-          endTime: '00:02',
+          tagBundleName: tagBundle,
+          tagName: tag,
+          startTime: startValue,
+          endTime: endValue,
           date: date,
           order: singleEntry.order,
         },
@@ -51,11 +52,8 @@ export default function SingleEntry({ singleEntry, date }) {
     })
   }
 
-  useEffect(() => {
-   
-  }, [startValue, endValue])
+  const selectedBundleTags = _.filter(activeBundles, { name: tagBundle })
 
-  console.log(startValue, endValue)
   return (
     //Przekazać i z mapowania wyżej
     <>
@@ -81,11 +79,9 @@ export default function SingleEntry({ singleEntry, date }) {
       />
 
       <Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        label="Bundle"
-        value={singleEntry.tag?.tagBundle.name}
+        value={tagBundle}
         style={{ minWidth: '12rem' }}
+        onChange={(event) => setTagBundle(event.target.value)}
       >
         {activeBundles?.map((bundle) => {
           return (
@@ -97,15 +93,17 @@ export default function SingleEntry({ singleEntry, date }) {
       </Select>
 
       <Select
-        labelId="demo-simple-select-label"
-        id="demo-simple-select"
-        label="Tag"
-        value={singleEntry.tag?.name}
+        value={tag}
         style={{ minWidth: '12rem' }}
+        onChange={(event) => setTag(event.target.value)}
       >
-        <MenuItem value={singleEntry.tag?.name}>
-          {singleEntry.tag?.name}
-        </MenuItem>
+        {selectedBundleTags[0]?.tags.map((tag, index) => {
+          return (
+            <MenuItem key={index} value={tag.name}>
+              {tag.name}
+            </MenuItem>
+          )
+        })}
       </Select>
     </>
   )
