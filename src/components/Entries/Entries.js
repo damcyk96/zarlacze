@@ -46,7 +46,8 @@ const Entries = () => {
         ) {
           console.log('Something is error')
         }
-        return (str += `${element.startTime} ${element.endTime} ${element.tag.tagBundle.name}-${element.tag.name}\n`)
+        const dateObj = element.date.split('T')
+        return (str += `${dateObj[0]} ${element.startTime} ${element.endTime} ${element.tag.tagBundle.name}-${element.tag.name}\n`)
       })
     }
     setvalueToCopy(str)

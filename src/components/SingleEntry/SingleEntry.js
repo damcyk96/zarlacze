@@ -3,18 +3,25 @@ import { TextField, MenuItem, Select } from '@mui/material'
 import { TimePicker } from '@mui/lab'
 
 export default function SingleEntry({ singleEntry }) {
-  const startValues = singleEntry.startTime.split(':')
-  const dateObj = new Date(singleEntry.createdAt)
-  dateObj.setHours(startValues[0])
-  dateObj.setMinutes(startValues[1])
+  let dateObj = undefined
+  let dateObjEnd = undefined
 
-  const endValues = singleEntry.endTime.split(':')
-  const dateObjEnd = new Date(singleEntry.createdAt)
-  dateObjEnd.setHours(endValues[0])
-  dateObjEnd.setMinutes(endValues[1])
+  if (singleEntry.startTime) {
+    const startValues = singleEntry.startTime.split(':')
+    dateObj = new Date(singleEntry.createdAt)
+    dateObj.setHours(startValues[0])
+    dateObj.setMinutes(startValues[1])
+  }
 
-  const [startValue, setStartValue] = useState(dateObj || undefined)
-  const [endValue, setEndValue] = useState(dateObjEnd || undefined)
+  if (singleEntry.endTime) {
+    const endValues = singleEntry.endTime.split(':')
+    dateObjEnd = new Date(singleEntry.createdAt)
+    dateObjEnd.setHours(endValues[0])
+    dateObjEnd.setMinutes(endValues[1])
+  }
+
+  const [startValue, setStartValue] = useState(dateObj)
+  const [endValue, setEndValue] = useState(dateObjEnd)
 
   return (
     <>
