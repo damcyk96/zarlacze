@@ -8,6 +8,8 @@ import CancelIcon from '@mui/icons-material/Cancel'
 import { useMutation } from '@apollo/client'
 import { CREATE_BUNDLE } from '../../graphql/mutations/createNewBundle'
 import { GET_ALL_BUNDLES } from './../../graphql/queries/useGetAllBundles'
+import { Formik } from 'formik'
+import { userFormSchema } from '../../schemas'
 
 const style = {
   position: 'absolute',
@@ -22,70 +24,93 @@ const style = {
 }
 
 const ModalAddBundle = () => {
+  const initialValues = {
+    bundleName: '',
+    description: '',
+  }
   const [addBundle] = useMutation(CREATE_BUNDLE, {
     refetchQueries: [GET_ALL_BUNDLES, 'GetAllBundles'],
   })
 
-  const handleAddBundle = () => {
-    addBundle({
-      variables: {
-        record: {
-          name: bundleName,
-          description: bundleDescription,
-        },
-      },
-    })
-  }
   const { isAddModalOpen, setIsAddModalOpen } = addModalState()
   const [bundleName, setBundleName] = useState('')
   const [bundleDescription, setBundleDescription] = useState('')
   return (
     <div>
-      <Modal
-        open={isAddModalOpen}
-        onClose={() => {
-          setIsAddModalOpen(false)
-        }}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
+      <Formik
+        validationSchema={userFormSchema}
+        initialValues={initialValues}
+        isInitialValid={false}
       >
-        <Box sx={style}>
-          <Button
-            onClick={() => {
-              setIsAddModalOpen(false)
-            }}
-          >
-            <CancelIcon fontSize="large" color="error" />
-          </Button>
-          <Box display="flex" flexDirection="column">
-            <h1>Add Bundle</h1>
-            <TextField
-              style={{ width: '100%' }}
-              id="outlined-basic"
-              label="Bundle name"
-              variant="outlined"
-              onChange={(e) => setBundleName(e.target.value)}
-            />
-            <TextareaAutosize
-              style={{ marginTop: '2rem', width: '100%' }}
-              aria-label="minimum height"
-              minRows={6}
-              placeholder="Description bundle"
-              onChange={(e) => setBundleDescription(e.target.value)}
-            />
-            <Button
-              variant="contained"
-              style={{ marginTop: '2rem' }}
-              onClick={() => {
-                handleAddBundle()
+        {({ handleChange, handleBlur, values, touched, isValid, errors }) => {
+          const handleAddBundle = () => {
+            addBundle({
+              variables: {
+                record: {
+                  name: values.bundleName,
+                  description: values.description,
+                },
+              },
+            })
+          }
+          return (
+            <Modal
+              open={isAddModalOpen}
+              onClose={() => {
                 setIsAddModalOpen(false)
               }}
+              aria-labelledby="modal-modal-title"
+              aria-describedby="modal-modal-description"
             >
-              Add bundle
-            </Button>
-          </Box>
-        </Box>
-      </Modal>
+              <Box sx={style}>
+                <Button
+                  onClick={() => {
+                    setIsAddModalOpen(false)
+                  }}
+                >
+                  <CancelIcon fontSize="large" color="error" />
+                </Button>
+                <Box display="flex" flexDirection="column">
+                  <h1>Add Bundle</h1>
+                  <TextField
+                    style={{ width: '100%' }}
+                    id="outlined-basic"
+                    label="Bundle name"
+                    variant="outlined"
+                    onChange={handleChange}
+                    name="bundleName"
+                    isInvalid={touched.bundleName && errors.bundleName}
+                    onBlur={handleBlur}
+                  />
+                  <TextareaAutosize
+                    style={{ marginTop: '2rem', width: '100%' }}
+                    aria-label="minimum height"
+                    minRows={6}
+                    placeholder="Description bundle"
+                    name="description"
+                    isInvalid={touched.description && errors.description}
+                    onBlur={handleBlur}
+                    onChange={handleChange}
+                  />
+                  <p style={{ color: 'red' }}>{errors && errors.bundleName}</p>
+                  <p style={{ color: 'red' }}>{errors && errors.description}</p>
+                  <Button
+                    variant="contained"
+                    style={{ marginTop: '2rem' }}
+                    disabled={!isValid}
+                    onClick={() => {
+                      handleAddBundle()
+                      setIsAddModalOpen(false)
+                    }}
+                  >
+                    Add bundle
+                  </Button>
+                </Box>
+              </Box>
+            </Modal>
+          )
+        }}
+      </Formik>
     </div>
   )
 }

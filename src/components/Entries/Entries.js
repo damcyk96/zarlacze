@@ -34,9 +34,9 @@ const Entries = () => {
     refetchQueries: [GET_ALL_ENTRIES, 'GetAllEntries'],
   })
 
-  useMemo(() => {
+  const copyEntries = () => {
     let str = ''
-    if (entries) {
+    if (entries && entries.length > 0) {
       entries.forEach((element) => {
         if (
           !element.startTime ||
@@ -44,7 +44,7 @@ const Entries = () => {
           !element.tag.tagBundle.name ||
           !element.tag.name
         ) {
-          console.log('Something is error')
+          alert('Something is wrong')
         }
         const dateObj = element.date.split('T')
         return (str += `${dateObj[0]} ${element.startTime} ${element.endTime} ${element.tag.tagBundle.name}-${element.tag.name}\n`)
@@ -52,7 +52,7 @@ const Entries = () => {
     }
     setvalueToCopy(str)
     console.log(str)
-  }, [entries])
+  }
 
   useEffect(() => {
     setEntries(data)
@@ -116,6 +116,7 @@ const Entries = () => {
               </Button>
             </CopyToClipboard>
           )}
+
         </Box>
       </Container>
       <ModalAddEntry order={order}/>
