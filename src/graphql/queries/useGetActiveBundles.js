@@ -6,6 +6,9 @@ export const GET_ACTIVE_BUNDLES = gql`
             tagBundles {
                 name
                 _id
+                tags {
+                    name
+                }
             }
         }
     }
