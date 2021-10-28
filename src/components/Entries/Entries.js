@@ -1,22 +1,22 @@
-import React, { useMemo, useState, useEffect } from 'react'
+import React, { useState, useEffect } from 'react'
 import { Container, Button, Stack } from '@mui/material'
 import DateAdapter from '@mui/lab/AdapterDateFns'
 import { LocalizationProvider } from '@mui/lab'
 import SingleEntry from '../SingleEntry'
 import Loader from '../Loader'
 import { Box } from '@mui/system'
-import { useMutation, gql, useQuery } from '@apollo/client'
+import { useMutation, gql } from '@apollo/client'
 import useGetEntriesByDate, {
   GET_ENTRIES_BY_DATE,
 } from '../../graphql/queries/useGetEntriesByDate'
-import { GET_ALL_ENTRIES } from '../../graphql/queries/useGetAllEntries'
 import { CopyToClipboard } from 'react-copy-to-clipboard'
 import ContentCopyIcon from '@mui/icons-material/ContentCopy'
 import DeleteIcon from '@mui/icons-material/Delete'
 import AddCircleOutlineIcon from '@mui/icons-material/AddCircleOutline'
-import { addModalState } from '../../context/addModalOpen'
+import HighlightOffIcon from '@mui/icons-material/HighlightOff'
 import { CREATE_ENTRY } from '../../graphql/mutations/createEntryMutation'
 import { dateState } from '../../context/date'
+import { UPDATE_ENTRY } from '../../graphql/mutations/updateEntry'
 
 const DELETE_ENTRY = gql`
   mutation DeleteEntry($_id: MongoID!) {
@@ -29,14 +29,11 @@ const DELETE_ENTRY = gql`
 const Entries = () => {
   const [valueToCopy, setvalueToCopy] = useState('')
   const [copied, setCopied] = useState(false)
-  const [order, setOrder] = useState(0)
-  const { isAddEntryModalOpen, setIsAddEntryModalOpen } = addModalState()
+  const [pickedOrder, setPickedOrder] = useState(0)
   const { data, loading } = useGetEntriesByDate()
   const [entries, setEntries] = useState()
   const { dateQueryFormat } = dateState()
-  const [deleteEntry] = useMutation(DELETE_ENTRY, {
-    refetchQueries: [GET_ENTRIES_BY_DATE, 'GetEntriesByDate'],
-  })
+  const [deleteEntry] = useMutation(DELETE_ENTRY)
   const [createEntry] = useMutation(CREATE_ENTRY, {
     refetchQueries: [GET_ENTRIES_BY_DATE, 'GetEntriesByDate'],
   })
@@ -68,9 +65,11 @@ const Entries = () => {
         ) {
           alert('Something is wrong')
           return
+        } else {
+          const dateObj = element.date.split('T')
+          str += `${dateObj[0]} ${element.startTime} ${element.endTime} ${element.tag.tagBundle.name}-${element.tag.name}\n`
         }
-        const dateObj = element.date.split('T')
-        return (str += `${dateObj[0]} ${element.startTime} ${element.endTime} ${element.tag.tagBundle.name}-${element.tag.name}\n`)
+        return str
       })
     }
     setvalueToCopy(str)
@@ -78,10 +77,33 @@ const Entries = () => {
 
   useEffect(() => {
     setEntries(data)
-    setOrder(0)
-  }, [data, entries])
+  }, [data])
+
+  const [updateEntry] = useMutation(UPDATE_ENTRY)
+  useEffect(() => {
+    if (entries) {
+      const newEntries = entries.map((entry, i) => {
+        return {
+          ...entry,
+          order: i,
+        }
+      })
+      if (newEntries) {
+        newEntries.forEach((entry, i) => {
+          console.log(entry)
+          updateEntry({
+            variables: {
+              _id: entry._id,
+              record: {
+                order: i,
+              },
+            },
+          })
+        })
+      }
+    }
+  }, [entries])
   if (loading) return <Loader />
-  console.log(entries)
   return (
     <LocalizationProvider dateAdapter={DateAdapter}>
       <Container>
@@ -91,14 +113,24 @@ const Entries = () => {
             variant="outlined"
             color="success"
             onClick={() => {
-              handleCreateEntry(order)
+              const obj = {
+                order: entries[0].order - 1,
+              }
+              let newEntries = [...entries]
+              newEntries.splice(0, 0, obj)
+              handleCreateEntry(0)
             }}
           >
             <AddCircleOutlineIcon fontSize="large" />
           </Button>
         </Box>
-        {entries?.map((singleEntry) => (
-          <Box display="flex" justifyContent="center" key={singleEntry._id}>
+        {entries?.map((singleEntry, index) => (
+          <Box
+            display="flex"
+            justifyContent="center"
+            key={singleEntry._id}
+            style={{ marginTop: '1rem' }}
+          >
             <Stack direction="row" spacing={2}>
               <p>{singleEntry.order}</p>
               <SingleEntry singleEntry={singleEntry} date={dateQueryFormat} />
@@ -106,10 +138,12 @@ const Entries = () => {
                 variant="outlined"
                 color="success"
                 onClick={() => {
-                 setOrder(entries[entries.length-1] + 1)
-                 console.log(order)
-                  handleCreateEntry(order)
-                  setOrder(0)
+                  const obj = {
+                    order: singleEntry.order + 1,
+                  }
+                  let newEntries = [...entries]
+                  newEntries.splice(index, 0, obj)
+                  handleCreateEntry(index)
                 }}
               >
                 <AddCircleOutlineIcon fontSize="large" />
@@ -131,6 +165,9 @@ const Entries = () => {
           </Box>
         ))}
         <Box display="flex" marginTop="3rem" justifyContent="flex-end ">
+          <Button>
+            <HighlightOffIcon color="error" fontSize="large" />
+          </Button>
           {entries?.length > 0 && (
             <CopyToClipboard text={valueToCopy} onCopy={() => setCopied(true)}>
               <Button>
