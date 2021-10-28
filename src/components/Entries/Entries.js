@@ -134,7 +134,6 @@ const Entries = () => {
             style={{ marginTop: '1rem' }}
           >
             <Stack direction="row" spacing={2}>
-              <p>{singleEntry.order}</p>
               <SingleEntry singleEntry={singleEntry} date={dateQueryFormat} />
               <Button
                 variant="outlined"
