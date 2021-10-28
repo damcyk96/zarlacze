@@ -4,14 +4,17 @@ import BundlesListWithAdding from '../../components/BundlesListWithAdding/Bundle
 import { AddModalStateProvider } from '../../context/addModalOpen'
 import { DetailsModalStateProvider } from '../../context/detailsModalOpen'
 import ModalAddBundle from '../../components/ModalAddBundle/ModalAddBundle'
+import { ActiveBundlesStateProvider } from '../../context/activeBundles'
 
 const Bundles = () => {
   return (
     <Container>
       <AddModalStateProvider>
         <DetailsModalStateProvider>
-          <BundlesListWithAdding />
-          <ModalAddBundle />
+          <ActiveBundlesStateProvider>
+            <BundlesListWithAdding />
+            <ModalAddBundle />
+          </ActiveBundlesStateProvider>
         </DetailsModalStateProvider>
       </AddModalStateProvider>
     </Container>
