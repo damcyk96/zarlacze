@@ -24,7 +24,6 @@ const AllBundles = () => {
         bundleId: bundleId,
       },
     })
-    cogoToast.success('Tag bundle was assigned.')
   }
 
   const Item = styled(Paper)(({ theme }) => ({
@@ -58,6 +57,7 @@ const AllBundles = () => {
                 color="success"
                 onClick={() => {
                   handleAssignBundle(bundle._id)
+                  cogoToast.success(`Tag bundle ${bundle.name} was assigned.`)
                 }}
               >
                 <AddCircleIcon />

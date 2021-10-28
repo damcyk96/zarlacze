@@ -18,6 +18,7 @@ import { CREATE_ENTRY } from '../../graphql/mutations/createEntryMutation'
 import { dateState } from '../../context/date'
 import { UPDATE_ENTRY } from '../../graphql/mutations/updateEntry'
 import { format } from 'date-fns'
+import cogoToast from 'cogo-toast'
 
 const DELETE_ENTRY = gql`
   mutation DeleteEntry($_id: MongoID!) {
@@ -158,6 +159,7 @@ const Entries = () => {
                       _id: singleEntry._id,
                     },
                   })
+                  cogoToast.error('Entry was deleted')
                 }}
               >
                 <DeleteIcon fontSize="large" />

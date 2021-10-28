@@ -25,7 +25,6 @@ const ActiveBundles = () => {
                 bundleId: bundleId,
             },
         })
-        cogoToast.error('Tag bundle was unassigned.')
 
     }
 
@@ -62,6 +61,7 @@ const ActiveBundles = () => {
                                 color="error"
                                 onClick={() => {
                                     handleUnassignBundle(bundle._id)
+                                    cogoToast.error(`Tag bundle ${bundle.name} was unassigned.`)
                                 }}
                             >
                                 <HighlightOffIcon />

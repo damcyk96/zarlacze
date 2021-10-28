@@ -9,7 +9,7 @@ import { format } from 'date-fns'
 import cogoToast from 'cogo-toast'
 
 
-export default function SingleEntry({ singleEntry, date }) {
+export default function SingleEntry({ singleEntry }) {
   let dateObj = undefined
   let dateObjEnd = undefined
 
@@ -45,7 +45,6 @@ export default function SingleEntry({ singleEntry, date }) {
           endTime: format(endValue, 'HH:MM'),
           tagBundleName: tagBundle,
           tagName: tag,
-          date: date,
         },
       },
     })
@@ -66,7 +65,6 @@ export default function SingleEntry({ singleEntry, date }) {
   //     console.log(arrayWithTags)
   //   }
   // }, [tagBundle])
-  const selectedBundleTags = _.filter(activeBundles, { name: tagBundle })
 
   return (
     <>
