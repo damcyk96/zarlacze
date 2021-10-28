@@ -22,7 +22,6 @@ export default function SingleEntry({ singleEntry }) {
 
   const [startValue, setStartValue] = useState(dateObj)
   const [endValue, setEndValue] = useState(dateObjEnd)
-
   return (
     <>
       <TimePicker
@@ -34,6 +33,7 @@ export default function SingleEntry({ singleEntry }) {
           setStartValue(newValue)
         }}
         renderInput={(params) => <TextField {...params} />}
+        toolbarPlaceholder
       />
       <TimePicker
         label="End time"
