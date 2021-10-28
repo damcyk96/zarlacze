@@ -35,10 +35,10 @@ const Entries = () => {
   const [entries, setEntries] = useState()
   const { dateQueryFormat } = dateState()
   const [deleteEntry] = useMutation(DELETE_ENTRY, {
-    refetchQueries: [GET_ENTRIES_BY_DATE, 'GetAllEntries'],
+    refetchQueries: [GET_ENTRIES_BY_DATE, 'GetEntriesByDate'],
   })
   const [createEntry] = useMutation(CREATE_ENTRY, {
-    refetchQueries: [GET_ENTRIES_BY_DATE, 'GetAllEntries'],
+    refetchQueries: [GET_ENTRIES_BY_DATE, 'GetEntriesByDate'],
   })
 
   const handleCreateEntry = (order) => {
@@ -47,8 +47,8 @@ const Entries = () => {
         record: {
           tagBundleName: '',
           tagName: '',
-          startTime: '11:20',
-          endTime: '11:30',
+          startTime: '00:01',
+          endTime: '00:02',
           date: dateQueryFormat,
           order: order,
         },
@@ -81,7 +81,7 @@ const Entries = () => {
     setOrder(0)
   }, [data, entries])
   if (loading) return <Loader />
-console.log(entries)
+  console.log(entries)
   return (
     <LocalizationProvider dateAdapter={DateAdapter}>
       <Container>
@@ -101,16 +101,13 @@ console.log(entries)
           <Box display="flex" justifyContent="center" key={singleEntry._id}>
             <Stack direction="row" spacing={2}>
               <p>{singleEntry.order}</p>
-              <SingleEntry singleEntry={singleEntry} />
+              <SingleEntry singleEntry={singleEntry} date={dateQueryFormat} />
               <Button
                 variant="outlined"
                 color="success"
                 onClick={() => {
-                  if (entries.length > 1) {
-                    setOrder(entries[0].order - 1)
-                  } else {
-                    setOrder(0)
-                  }
+                 setOrder(entries[entries.length-1] + 1)
+                 console.log(order)
                   handleCreateEntry(order)
                   setOrder(0)
                 }}

@@ -1,9 +1,13 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import { TextField, MenuItem, Select } from '@mui/material'
 import { TimePicker } from '@mui/lab'
 import { activeBundlesState } from '../../context/activeBundles'
+import { UPDATE_ENTRY } from '../../graphql/mutations/updateEntry'
+import { GET_ENTRIES_BY_DATE } from '../../graphql/queries/useGetEntriesByDate'
+import { useMutation } from '@apollo/client'
+import { useField } from 'formik'
 
-export default function SingleEntry({ singleEntry }) {
+export default function SingleEntry({ singleEntry, date }) {
   let dateObj = undefined
   let dateObjEnd = undefined
 
@@ -23,7 +27,35 @@ export default function SingleEntry({ singleEntry }) {
 
   const [startValue, setStartValue] = useState(dateObj)
   const [endValue, setEndValue] = useState(dateObjEnd)
-  const {activeBundles} = activeBundlesState();
+  const [tagBundle, setTagBundle] = useState()
+  const [tag, setTag] = useState()
+  const { activeBundles } = activeBundlesState()
+
+  const [updateEntry] = useMutation(UPDATE_ENTRY, {
+    refetchQueries: [GET_ENTRIES_BY_DATE, 'GetEntriesByDate'],
+  })
+
+  const handleUpdateEntry = () => {
+    updateEntry({
+      variables: {
+        _id: singleEntry._id,
+        record: {
+          tagBundleName: '',
+          tagName: '',
+          startTime: '00:01',
+          endTime: '00:02',
+          date: date,
+          order: singleEntry.order,
+        },
+      },
+    })
+  }
+
+  useEffect(() => {
+   
+  }, [startValue, endValue])
+
+  console.log(startValue, endValue)
   return (
     //Przekazać i z mapowania wyżej
     <>
@@ -56,7 +88,11 @@ export default function SingleEntry({ singleEntry }) {
         style={{ minWidth: '12rem' }}
       >
         {activeBundles?.map((bundle) => {
-          return <MenuItem key={bundle._id} value={bundle.name}>{bundle.name}</MenuItem>
+          return (
+            <MenuItem key={bundle._id} value={bundle.name}>
+              {bundle.name}
+            </MenuItem>
+          )
         })}
       </Select>
 
