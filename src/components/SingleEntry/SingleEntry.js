@@ -106,6 +106,11 @@ export default function SingleEntry({ singleEntry }) {
         value={singleEntry.tag.name}
         onChange={(e) => setTag(e.target.value)}
         disabled={!tagBundle ? true : false}
+        onBlur={() => {
+          if (tagBundle) {
+            handleUpdateEntry()
+          }
+        }}
       />
       <Select
         value={singleEntry.tag.name}
