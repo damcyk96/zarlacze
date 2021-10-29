@@ -94,14 +94,17 @@ const Entries = () => {
       })
       if (newEntries) {
         newEntries.forEach((entry, i) => {
-          updateEntry({
-            variables: {
-              _id: entry._id,
-              record: {
-                order: i,
+          if (entry.tagBundle && entry.tagName) {
+            updateEntry({
+              variables: {
+                _id: i,
+                startTime: entry.startTime,
+                endTime: entry.endTime,
+                tagBundleName: entry.tagBundleName,
+                tagName: entry.tagName,
               },
-            },
-          })
+            })
+          }
         })
       }
     }
@@ -140,11 +143,11 @@ const Entries = () => {
                 variant="outlined"
                 color="success"
                 onClick={() => {
-                  const obj = {
-                    order: singleEntry.order + 1,
-                  }
-                  let newEntries = [...entries]
-                  newEntries.splice(index, 0, obj)
+                  // const obj = {
+                  //   order: singleEntry.order,
+                  // }
+                  // let newEntries = [...entries]
+                  // newEntries.splice(index, 0, obj)
                   handleCreateEntry(index)
                 }}
               >

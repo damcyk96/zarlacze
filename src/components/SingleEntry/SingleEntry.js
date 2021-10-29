@@ -8,7 +8,6 @@ import _ from 'lodash'
 import { format } from 'date-fns'
 import cogoToast from 'cogo-toast'
 
-
 export default function SingleEntry({ singleEntry }) {
   let dateObj = undefined
   let dateObjEnd = undefined
@@ -32,7 +31,6 @@ export default function SingleEntry({ singleEntry }) {
   const [tagBundle, setTagBundle] = useState('')
   const [tag, setTag] = useState('')
   const { activeBundles } = activeBundlesState()
-  const [arrayTags, setArrayTags] = useState([])
 
   const [updateEntry] = useMutation(UPDATE_ENTRY)
 
@@ -40,18 +38,15 @@ export default function SingleEntry({ singleEntry }) {
     updateEntry({
       variables: {
         _id: singleEntry._id,
-        record: {
-          startTime: format(startValue, 'HH:MM'),
-          endTime: format(endValue, 'HH:MM'),
-          tagBundleName: tagBundle,
-          tagName: tag,
-        },
+        startTime: format(startValue, 'HH:MM'),
+        endTime: format(endValue, 'HH:MM'),
+        tagBundleName: tagBundle,
+        tagName: tag,
       },
     })
     cogoToast.success('Entry was updated')
   }
   const selectedBundleTags = _.filter(activeBundles, { name: tagBundle })
-
 
   // const arrayWithTags = []
   // useEffect(() => {
@@ -65,7 +60,7 @@ export default function SingleEntry({ singleEntry }) {
   //     console.log(arrayWithTags)
   //   }
   // }, [tagBundle])
-
+  console.log(singleEntry.tag.name)
   return (
     <>
       <TimePicker
@@ -90,7 +85,7 @@ export default function SingleEntry({ singleEntry }) {
       />
 
       <Select
-        value={singleEntry.tagBundle}
+        value={singleEntry.tag.tagBundle.name}
         style={{ minWidth: '12rem' }}
         onChange={(event) => setTagBundle(event.target.value)}
         onBlur={() => {
@@ -98,7 +93,6 @@ export default function SingleEntry({ singleEntry }) {
             handleUpdateEntry()
           }
         }}
-
       >
         {activeBundles?.map((bundle) => {
           return (
@@ -108,8 +102,12 @@ export default function SingleEntry({ singleEntry }) {
           )
         })}
       </Select>
+      <TextField
+        value={singleEntry.tag.name}
+        onChange={(e) => setTag(e.target.value)}
+      />
       <Select
-        value={tag}
+        value={singleEntry.tag.name}
         style={{ minWidth: '12rem' }}
         onChange={(event) => setTag(event.target.value)}
         disabled={!tagBundle ? true : false}
@@ -118,7 +116,6 @@ export default function SingleEntry({ singleEntry }) {
             handleUpdateEntry()
           }
         }}
-
       >
         {selectedBundleTags[0]?.tags.map((tag, index) => {
           return (
