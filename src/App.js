@@ -1,22 +1,16 @@
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { useHistory } from 'react-router-dom'
 import { useContext, useEffect } from 'react'
-import {
-  ApolloClient,
-  InMemoryCache,
-  ApolloProvider,
-  createHttpLink,
-} from '@apollo/client'
 
 import Dashboard from './components/Dashboard'
 import Login from './components/Login'
 import { AddModalStateProvider } from './context/addModalOpen'
-import { useClient, UserContext } from './context/getNewClient'
+import { UserContext } from './context/getNewClient'
 
 function App() {
   const history = useHistory()
-  // const { client, username } = useClient()
-  const { client, username } = useContext(UserContext)
+
+  const { username } = useContext(UserContext)
 
   useEffect(() => {
     if (!username) {
@@ -26,14 +20,12 @@ function App() {
   }, [])
 
   return (
-    <ApolloProvider client={client}>
-      <AddModalStateProvider>
-        <Switch>
-          <Route path="/login" component={Login} />
-          <Route path="/" component={Dashboard} />
-        </Switch>
-      </AddModalStateProvider>
-    </ApolloProvider>
+    <AddModalStateProvider>
+      <Switch>
+        <Route path="/login" component={Login} />
+        <Route path="/" component={Dashboard} />
+      </Switch>
+    </AddModalStateProvider>
   )
 }
 
