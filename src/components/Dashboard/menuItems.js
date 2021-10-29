@@ -8,10 +8,14 @@ import CalendarTodayIcon from '@mui/icons-material/CalendarToday'
 import ExitToAppIcon from '@mui/icons-material/ExitToApp'
 import { Divider } from '@mui/material'
 import { Link } from 'react-router-dom'
+import { UserContext } from '../../context/getNewClient'
 
 const MenuItems = () => {
+  // const { removeProviderStorage } = useClient()
+  const { removeProviderStorage } = React.useContext(UserContext)
+
   const handleLogout = () => {
-    localStorage.removeItem('user-name')
+    removeProviderStorage()
   }
 
   return (

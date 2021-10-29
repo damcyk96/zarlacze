@@ -13,6 +13,8 @@ import { useHistory } from 'react-router-dom'
 import { createTheme, ThemeProvider } from '@mui/material/styles'
 import selleoBg from './../../assets/images/selleoBg.png'
 import selleoLogo from './../../assets/images/selleoLogo.png'
+import { UserContext } from '../../context/getNewClient'
+// import { UserContext } from './context/getNewClient'
 
 function Copyright(props) {
   return (
@@ -37,9 +39,11 @@ const theme = createTheme()
 export default function Login() {
   const [userName, setUserName] = React.useState('')
   const history = useHistory()
+  const { setProviderStorage } = React.useContext(UserContext)
 
   const handleLogin = () => {
     localStorage.setItem('user-name', userName)
+    setProviderStorage(userName)
 
     history.replace('/')
   }
