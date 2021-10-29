@@ -105,6 +105,7 @@ export default function SingleEntry({ singleEntry }) {
       <TextField
         value={singleEntry.tag.name}
         onChange={(e) => setTag(e.target.value)}
+        disabled={!tagBundle ? true : false}
       />
       <Select
         value={singleEntry.tag.name}
